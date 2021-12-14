@@ -6,6 +6,13 @@ plugins {
 android {
     compileSdk 31
 
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("app.properties").newDataInputStream())
+        def nasaApiKey  = properties.getProperty("NASA_API_KEY", "")
+        it.buildConfigField "String", "NASA_API_KEY", nasaApiKey
+    }
+
     defaultConfig {
         applicationId "com.pd.photo_of_the_day_nasa"
         minSdk 24
