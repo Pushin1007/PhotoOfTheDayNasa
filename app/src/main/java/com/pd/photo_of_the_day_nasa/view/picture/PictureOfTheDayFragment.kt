@@ -82,7 +82,8 @@ class PictureOfTheDayFragment : Fragment() {
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
             is PictureOfTheDayState.Error -> {
-                binding.imageView.load(R.drawable.ic_baseline_error_outline)
+                binding.imageView.load(R.drawable.ic_load_error_vector)
+                Toast.makeText(context, "PictureOfTheDayState.Error ", Toast.LENGTH_LONG).show()
             }
             is PictureOfTheDayState.Loading -> {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
@@ -91,11 +92,11 @@ class PictureOfTheDayFragment : Fragment() {
                 val pictureOfTheDayResponseData = state.pictureOfTheDayResponseData
                 val url = pictureOfTheDayResponseData.url
                 binding.imageView.load(url)
-//                {
-//                    lifecycle(this@PictureOfTheDayFragment)
-//                    error(R.drawable.ic_load_error_vector)
-//                    placeholder(R.drawable.ic_no_photo_vector)
-//                }
+                {
+                    lifecycle(this@PictureOfTheDayFragment)
+                    error(R.drawable.ic_load_error_vector)
+                    placeholder(R.drawable.ic_no_photo_vector)
+                }
             }
         }
     }
