@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="color_gray">#66000000</color>
+    <color name="color_fab_button">#de0b3c</color>
 </resources>
