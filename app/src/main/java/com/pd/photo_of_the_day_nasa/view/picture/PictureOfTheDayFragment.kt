@@ -11,9 +11,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.lifecycle.Observer
+import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
 class PictureOfTheDayFragment : Fragment() {
@@ -33,13 +37,13 @@ class PictureOfTheDayFragment : Fragment() {
         _binding = null
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        viewModel.getData().observe(viewLifecycleOwner, Observer {
-//            renderData(it)
-//        })
-//        viewModel.sendServerRequest()
-//
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getData().observe(viewLifecycleOwner, Observer {
+            renderData(it)
+        })
+        viewModel.sendServerRequest()
+
 //        binding.inputLayout.setEndIconOnClickListener {
 //            startActivity(Intent(Intent.ACTION_VIEW).apply {
 //                data =
@@ -72,27 +76,29 @@ class PictureOfTheDayFragment : Fragment() {
 //        })
 //
 //        setBottomAppBar()
-//
-//    }
 
-//    private fun renderData(state: PictureOfTheDayState) {
-//        when (state) {
-//            is PictureOfTheDayState.Error -> {//TODO(ДЗ)
-//            }
-//            is PictureOfTheDayState.Loading -> {
-//                binding.imageView.load(R.drawable.ic_no_photo_vector)
-//            }
-//            is PictureOfTheDayState.Success -> {
-//                val pictureOfTheDayResponseData = state.pictureOfTheDayResponseData
-//                val url = pictureOfTheDayResponseData.url
-//                binding.imageView.load(url) {
+    }
+
+    private fun renderData(state: PictureOfTheDayState) {
+        when (state) {
+            is PictureOfTheDayState.Error -> {
+                binding.imageView.load(R.drawable.ic_baseline_error_outline)
+            }
+            is PictureOfTheDayState.Loading -> {
+                binding.imageView.load(R.drawable.ic_no_photo_vector)
+            }
+            is PictureOfTheDayState.Success -> {
+                val pictureOfTheDayResponseData = state.pictureOfTheDayResponseData
+                val url = pictureOfTheDayResponseData.url
+                binding.imageView.load(url)
+//                {
 //                    lifecycle(this@PictureOfTheDayFragment)
 //                    error(R.drawable.ic_load_error_vector)
 //                    placeholder(R.drawable.ic_no_photo_vector)
 //                }
-//            }
-//        }
-//    }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

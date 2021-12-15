@@ -13,7 +13,7 @@ import retrofit2.Response
 class PictureOfTheDayViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayState> = MutableLiveData(), //создаем нужные экземпляры
     private val retrofitImpl: PictureOfTheDayRetrofitImpl = PictureOfTheDayRetrofitImpl(),
-    private val listener: LoaderErrorListener
+//    private val listener: LoaderErrorListener ?? спросить
 ) : ViewModel() {
     fun getData(): LiveData<PictureOfTheDayState> {
         return liveDataForViewToObserve
@@ -44,13 +44,13 @@ class PictureOfTheDayViewModel(
 
         override fun onFailure(call: Call<PictureOfTheDayResponseData>, t: Throwable) {
             t.printStackTrace()
-            listener.showError(t)
+//            listener.showError(t)?? спросить
         }
 
     }
 
-    interface LoaderErrorListener { //интерфейс с одним методом показа  для показа ошибки
-        fun showError(throwable: Throwable)
-    }
+//    interface LoaderErrorListener { //интерфейс с одним методом показа  для показа ошибки
+//        fun showError(throwable: Throwable)
+//    }
 
 }
