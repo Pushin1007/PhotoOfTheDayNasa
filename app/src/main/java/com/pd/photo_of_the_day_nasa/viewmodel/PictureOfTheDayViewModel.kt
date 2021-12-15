@@ -11,20 +11,22 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PictureOfTheDayViewModel(
-    private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayState> = MutableLiveData(),
-    private val retrofitImpl: PictureOfTheDayRetrofitImpl = PictureOfTheDayRetrofitImpl()
+    private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayState> = MutableLiveData(), //создаем нужные экземпляры
+    private val retrofitImpl: PictureOfTheDayRetrofitImpl = PictureOfTheDayRetrofitImpl(),
+    private val listener: LoaderErrorListener
 ) : ViewModel() {
     fun getData(): LiveData<PictureOfTheDayState> {
         return liveDataForViewToObserve
     }
 
     fun sendServerRequest() {
-        liveDataForViewToObserve.value = PictureOfTheDayState.Loading(0)
+        liveDataForViewToObserve.value = PictureOfTheDayState.Loading(0)// синхронно
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
             liveDataForViewToObserve.value = PictureOfTheDayState.Error(Throwable("wrong key"))
         } else {
-            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey).enqueue(callback)
+            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey)
+                .enqueue(callback)// делаем запрос
         }
     }
 
@@ -33,16 +35,22 @@ class PictureOfTheDayViewModel(
             call: Call<PictureOfTheDayResponseData>,
             response: Response<PictureOfTheDayResponseData>
         ) {
-            if(response.isSuccessful&&response.body()!=null){
+            if (response.isSuccessful && response.body() != null) {
                 liveDataForViewToObserve.value = PictureOfTheDayState.Success(response.body()!!)
-            }else{
-                //TODO("уловить ошибку")
+            } else {
+                //TODO("уловить ошибку")//не понятно что делать??????????
             }
         }
 
         override fun onFailure(call: Call<PictureOfTheDayResponseData>, t: Throwable) {
-            //TODO("уловить ошибку")
+            t.printStackTrace()
+            listener.showError(t)
         }
 
     }
+
+    interface LoaderErrorListener { //интерфейс с одним методом показа  для показа ошибки
+        fun showError(throwable: Throwable)
+    }
+
 }

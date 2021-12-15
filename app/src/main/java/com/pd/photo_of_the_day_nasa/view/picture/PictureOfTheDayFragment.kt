@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -23,9 +24,9 @@ class PictureOfTheDayFragment : Fragment() {
             return _binding!!
         }
 
-//    private val viewModel: PictureOfTheDayViewModel by lazy {
-//        ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
-//    }
+    private val viewModel: PictureOfTheDayViewModel by lazy {
+        ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
