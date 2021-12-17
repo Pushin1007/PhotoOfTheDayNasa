@@ -3,10 +3,14 @@
     <item
         android:id="@+id/navigation_one"
         android:icon="@drawable/ic_archive"
-        android:title="На экран 1" />
+        android:title="@string/BottNavOne" />
     <item
         android:id="@+id/navigation_two"
         android:icon="@drawable/ic_send"
-        android:title="На экран 2" />
+        android:title="@string/BottNavTwo" />
+    <item
+        android:id="@+id/navigation_three"
+        android:icon="@drawable/ic_baseline_error_outline"
+        android:title="@string/BottNavThree" />
 
 </menu>
