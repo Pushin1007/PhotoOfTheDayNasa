@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+import com.pd.photo_of_the_day_nasa.view.MainActivity
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
@@ -76,7 +77,7 @@ class PictureOfTheDayFragment : Fragment() {
 //            }
 //        })
 //
-//        setBottomAppBar()
+        setBottomAppBar()
 
     }
 
@@ -121,7 +122,7 @@ class PictureOfTheDayFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) { // создаем меню
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_bottom_bar, menu)
     }
@@ -129,24 +130,24 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
+            R.id.app_bar_settings -> Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
 //            R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(
 //                    R.id.container,
 //                    ChipsFragment.newInstance()
 //                ).commit()
-//            android.R.id.home -> BottomNavigationDrawerFragment().show(
-//                requireActivity().supportFragmentManager,
-//                ""
-//            )
+            android.R.id.home -> BottomNavigationDrawerFragment().show( //подключение бургера
+                requireActivity().supportFragmentManager, ""
+            )
         }
         return super.onOptionsItemSelected(item)
     }
 
-//    private var isMain = true
-//    private fun setBottomAppBar() {
-//        val context = activity as MainActivity
-//        context.setSupportActionBar(binding.bottomAppBar)
-//        setHasOptionsMenu(true)
+    private var isMain = true
+    private fun setBottomAppBar() {
+        val context = activity as MainActivity
+        context.setSupportActionBar(binding.bottomAppBar)
+        setHasOptionsMenu(true)
 //
 //
 //        binding.fab.setOnClickListener {
@@ -204,7 +205,7 @@ class PictureOfTheDayFragment : Fragment() {
 //            )
 //
 //
-//    }
+    }
 
 
 }
