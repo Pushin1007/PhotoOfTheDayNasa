@@ -44,13 +44,14 @@ class PictureOfTheDayFragment : Fragment() {
         })
         viewModel.sendServerRequest()
 
-//        binding.inputLayout.setEndIconOnClickListener {
-//            startActivity(Intent(Intent.ACTION_VIEW).apply {
-//                data =
-//                    Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
-//            })
-//        }
-//
+        binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                // достаем текст из вьюхи, преобразовываем в текст запрашиваем в вики
+                data =
+                    Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
+            })
+        }
+
 //        val behavior = BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
 //        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
 //
