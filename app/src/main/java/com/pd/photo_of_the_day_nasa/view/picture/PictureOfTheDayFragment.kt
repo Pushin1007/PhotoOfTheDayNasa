@@ -148,35 +148,39 @@ class PictureOfTheDayFragment : Fragment() {
         val context = activity as MainActivity
         context.setSupportActionBar(binding.bottomAppBar)
         setHasOptionsMenu(true)
-//
-//
-//        binding.fab.setOnClickListener {
-//            if (isMain) {
-//                isMain = false
-//                binding.bottomAppBar.navigationIcon = null
-//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-//                binding.fab.setImageDrawable(
-//                    ContextCompat.getDrawable(
-//                        context,
-//                        R.drawable.ic_back_fab
-//                    )
-//                )
-//                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
-//            } else {
-//                isMain = true
-//                binding.bottomAppBar.navigationIcon =
-//                    ContextCompat.getDrawable(context, R.drawable.ic_hamburger_menu_bottom_bar)
-//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-//                binding.fab.setImageDrawable(
-//                    ContextCompat.getDrawable(
-//                        context,
-//                        R.drawable.ic_plus_fab
-//                    )
-//                )
-//                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar)
-//            }
-//        }
-//
+
+        binding.fab.setOnClickListener { // смена положенияцентральной кнопки
+            if (isMain) { // если на главном экране.(виртаульно!) экран не меняется
+                isMain = false
+                binding.bottomAppBar.navigationIcon = null // скрываем бургер
+                binding.bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_END //меняем положение кнопки
+                binding.fab.setImageDrawable( // меняем иконку "+" кнопки на стрелку
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_back_fab
+                    )
+                )
+                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other_screen) // меняется меню
+            } else {
+                isMain = true
+                binding.bottomAppBar.navigationIcon =
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_hamburger_menu_bottom_bar
+                    )  // возвращаем гамбургер
+                binding.bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_CENTER //меняем положение кнопки
+                binding.fab.setImageDrawable( // меняем иконку кнопки стрелку на "+"
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_plus_fab
+                    )
+                )
+                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar)
+            }
+        }
+
 //        requireActivity()
 //            .onBackPressedDispatcher
 //            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -203,8 +207,7 @@ class PictureOfTheDayFragment : Fragment() {
 //                }
 //            }
 //            )
-//
-//
+
     }
 
 
