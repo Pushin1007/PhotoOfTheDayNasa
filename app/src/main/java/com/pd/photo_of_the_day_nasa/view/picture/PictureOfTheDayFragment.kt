@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
+import com.pd.photo_of_the_day_nasa.view.chips.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
@@ -105,7 +106,19 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
-            R.id.app_bar_settings -> Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+//            R.id.app_bar_settings -> Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+
+            R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.container,
+                    SettingsFragment.newInstance()
+
+                ).addToBackStack(null).commit()
+            android.R.id.home -> BottomNavigationDrawerFragment().show(
+                requireActivity().supportFragmentManager,
+                ""
+            )
+
 
             android.R.id.home -> BottomNavigationDrawerFragment().show( //подключение бургера
                 requireActivity().supportFragmentManager, ""
@@ -145,6 +158,7 @@ class PictureOfTheDayFragment : Fragment() {
                 binding.fab.setImageDrawable( // меняем иконку кнопки стрелку на "+"
                     ContextCompat.getDrawable(
                         context,
+
                         R.drawable.ic_plus_fab
                     )
                 )
