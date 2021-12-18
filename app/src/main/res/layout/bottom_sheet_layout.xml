@@ -22,20 +22,21 @@
 
     <TextView
         android:id="@+id/bottom_sheet_description_header"
+        style="@style/HeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin5"
         android:paddingStart="@dimen/padding_main"
         android:paddingEnd="@dimen/padding_main"
-        android:textColor="#000"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_line"
-        tools:text="Two Clusters and a Comet" />
+        android:text="@string/description_header"
+        />
 
     <TextView
         android:id="@+id/bottom_sheet_description"
+        style="@style/OrdinaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/padding_main"
@@ -43,5 +44,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_description_header"
-        tools:text="This lovely starfield spans some four full moons." />
+        android:text="@string/description"
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,17 +32,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-//            group.findViewById<Chip>(checkedId)?.let{
-//                Toast.makeText(context,"choose ${it.text}",Toast.LENGTH_SHORT).show()
-//            }
-//
-//        }
 
-//        binding.chipForDelete.setOnCloseIconClickListener {
-//            //binding.chipForDelete.visibility = View.GONE
-//            binding.chipForDelete.isChecked = false
-//        }
     }
 
     companion object {
