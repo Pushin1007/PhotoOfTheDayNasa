@@ -1,4 +1,5 @@
-package com.pd.photo_of_the_day_nasa.view.chips
+package com.pd.photo_of_the_day_nasa.view.settings
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

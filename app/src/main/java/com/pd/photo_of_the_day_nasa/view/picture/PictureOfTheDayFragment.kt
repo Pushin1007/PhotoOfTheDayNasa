@@ -17,7 +17,7 @@ import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
-import com.pd.photo_of_the_day_nasa.view.chips.SettingsFragment
+import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 

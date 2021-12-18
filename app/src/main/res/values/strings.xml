@@ -14,5 +14,8 @@
     <string name="BottNavThree">Важное!</string>
     <string name="description">This lovely starfield spans some four full moons.</string>
     <string name="description_header">Two Clusters and a Comet</string>
+    <string name="choose_theme">Let\'s choose an application theme ...</string>
+    <string name="ligth_theme">Ligth</string>
+    <string name="hard_theme">Hard</string>
 
 </resources>
