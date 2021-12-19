@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         when (numberOfTheme) {
             1 -> {
                 setTheme(R.style.Grey)
-                recreate()
+
             }
             2 -> {
                 setTheme(R.style.Purple)
-                recreate()
+
             }
         }
         setContentView(R.layout.activity_main)
