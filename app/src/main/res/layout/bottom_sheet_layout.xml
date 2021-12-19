@@ -15,7 +15,7 @@
         android:layout_width="25dp"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/margin5"
-        android:background="#663b4351"
+        android:background="@color/brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
