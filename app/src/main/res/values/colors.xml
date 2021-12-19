@@ -10,4 +10,8 @@
 
     <color name="color_gray">#66000000</color>
     <color name="color_fab_button">#de0b3c</color>
+    <color name="color_fab_hard">#de0b3c</color>
+
+    <color name="purple_custom">#EE00D6</color>
+
 </resources>

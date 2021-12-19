@@ -19,7 +19,7 @@
 
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+        android:id="@+id/chipThemeGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -27,20 +27,20 @@
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chipThemeLigth"
+            android:id="@+id/chipThemeGray"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_main"
-            android:text="@string/ligth_theme" />
+            android:text="@string/gray" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chipThemeHard"
+            android:id="@+id/chipThemePurple"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_main"
-            android:text="@string/hard_theme" />
+            android:text="@string/purple" />
 
     </com.google.android.material.chip.ChipGroup>
 

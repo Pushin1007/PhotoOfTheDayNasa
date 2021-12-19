@@ -45,6 +45,26 @@ class PictureOfTheDayFragment : Fragment() {
         })
         viewModel.sendServerRequest()
 
+        binding.chipsGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chipToday -> {
+// вот здесь не пойму как обработать....
+//                    chipsDayGroup.chipsGroup.check(R.id.chipToday)
+//                    viewModel.getPODFromServer(getDay(TODAY))
+                }
+                R.id.chipYesterday -> {
+//                    chipsDayGroup.chipsGroup.check(R.id.chipYesterday)
+//                    viewModel.getPODFromServer(getDay(YESTERDAY))
+                }
+                R.id.chipDayBeforeYesterday -> {
+//                    chipsDayGroup.chipsGroup.check(R.id.chipDayBeforeYesterday)
+//                    viewModel.getPODFromServer(getDay(BEFORE_YESTERDAY))
+                }
+//                else -> viewModel.getPODFromServer(getDay(TODAY))
+            }
+        }
+
+
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 // достаем текст из вьюхи, преобразовываем в текст запрашиваем в вики
@@ -82,6 +102,7 @@ class PictureOfTheDayFragment : Fragment() {
             }
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
