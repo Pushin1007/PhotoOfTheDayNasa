@@ -17,7 +17,7 @@ import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
-import com.pd.photo_of_the_day_nasa.view.chips.SettingsFragment
+import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
@@ -44,6 +44,26 @@ class PictureOfTheDayFragment : Fragment() {
             renderData(it)
         })
         viewModel.sendServerRequest()
+
+        binding.chipsGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chipToday -> {
+// вот здесь не пойму как обработать....
+//                    chipsDayGroup.chipsGroup.check(R.id.chipToday)
+//                    viewModel.getPODFromServer(getDay(TODAY))
+                }
+                R.id.chipYesterday -> {
+//                    chipsDayGroup.chipsGroup.check(R.id.chipYesterday)
+//                    viewModel.getPODFromServer(getDay(YESTERDAY))
+                }
+                R.id.chipDayBeforeYesterday -> {
+//                    chipsDayGroup.chipsGroup.check(R.id.chipDayBeforeYesterday)
+//                    viewModel.getPODFromServer(getDay(BEFORE_YESTERDAY))
+                }
+//                else -> viewModel.getPODFromServer(getDay(TODAY))
+            }
+        }
+
 
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -83,6 +103,7 @@ class PictureOfTheDayFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -106,7 +127,7 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
-//            R.id.app_bar_settings -> Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+
 
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(

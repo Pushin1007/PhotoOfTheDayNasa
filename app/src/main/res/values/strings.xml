@@ -12,5 +12,13 @@
     <string name="BottNavOne">На экран 1</string>
     <string name="BottNavTwo">На экран 2</string>
     <string name="BottNavThree">Важное!</string>
+    <string name="description">This lovely starfield spans some four full moons.</string>
+    <string name="description_header">Two Clusters and a Comet</string>
+    <string name="choose_theme">Let\'s choose an application theme ...</string>
+    <string name="gray">Gray</string>
+    <string name="purple">Purple</string>
+    <string name="chips_today">Today</string>
+    <string name="chip_yesterday">Yesterday</string>
+    <string name="chip_before_yesterday">Day before yesterday</string>
 
 </resources>
