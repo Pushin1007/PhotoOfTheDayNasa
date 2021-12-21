@@ -19,7 +19,7 @@ class PictureOfTheDayViewModel(
         return liveDataForViewToObserve
     }
 
-    fun sendServerRequest() {
+    fun sendServerRequest() { // запрос  без даты
         liveDataForViewToObserve.value = PictureOfTheDayState.Loading(0)
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
@@ -29,6 +29,17 @@ class PictureOfTheDayViewModel(
                 .enqueue(callback)// делаем  асинхронный запрос
         }
     }
+
+    fun sendServerRequest(date:String) { // запрос с датой
+        liveDataForViewToObserve.value = PictureOfTheDayState.Loading(0)
+        val apiKey: String = BuildConfig.NASA_API_KEY
+        if (apiKey.isBlank()) {
+            liveDataForViewToObserve.value = PictureOfTheDayState.Error(Throwable("wrong key"))
+        } else {
+            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey,date).enqueue(callback)
+        }
+    }
+
 
     private val callback = object : Callback<PictureOfTheDayResponseData> {
         override fun onResponse(

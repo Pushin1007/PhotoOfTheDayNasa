@@ -20,6 +20,8 @@ import com.pd.photo_of_the_day_nasa.view.MainActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -45,24 +47,23 @@ class PictureOfTheDayFragment : Fragment() {
         })
         viewModel.sendServerRequest()
 
-        binding.chipsGroup.setOnCheckedChangeListener { _, checkedId ->
+        binding.chipsGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.chipToday -> {
-// вот здесь не пойму как обработать....
-//                    chipsDayGroup.chipsGroup.check(R.id.chipToday)
-//                    viewModel.getPODFromServer(getDay(TODAY))
+                    viewModel.sendServerRequest()
                 }
                 R.id.chipYesterday -> {
-//                    chipsDayGroup.chipsGroup.check(R.id.chipYesterday)
-//                    viewModel.getPODFromServer(getDay(YESTERDAY))
+                    viewModel.sendServerRequest(takeDate(-1))
                 }
                 R.id.chipDayBeforeYesterday -> {
-//                    chipsDayGroup.chipsGroup.check(R.id.chipDayBeforeYesterday)
-//                    viewModel.getPODFromServer(getDay(BEFORE_YESTERDAY))
+                    viewModel.sendServerRequest(takeDate(-2))
                 }
-//                else -> viewModel.getPODFromServer(getDay(TODAY))
+                else -> viewModel.sendServerRequest()
             }
         }
+
+
+
 
 
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
@@ -75,6 +76,15 @@ class PictureOfTheDayFragment : Fragment() {
 
         setBottomAppBar()
 
+    }
+
+    private fun takeDate(count: Int): String { // преобразовываем дату в нужном формате
+        val currentDate = Calendar.getInstance()
+        currentDate.add(Calendar.DAY_OF_MONTH, count)
+        val format1 =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())// приводим к нужному формату
+        format1.timeZone = TimeZone.getTimeZone("EST") // меняем временную зону
+        return format1.format(currentDate.time)
     }
 
     private fun renderData(state: PictureOfTheDayState) {
