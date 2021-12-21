@@ -25,7 +25,8 @@
             app:helperText="@string/wiki_helper_text"
             app:layout_constraintBottom_toTopOf="@+id/chipsGroup"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditText"
@@ -36,31 +37,33 @@
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipsGroup"
             android:layout_width="wrap_content"
-            app:singleSelection="true"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayout"
+            app:singleSelection="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipToday"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chips_today" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipToday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chips_today" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipYesterday"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chip_yesterday" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipYesterday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chip_yesterday" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipDayBeforeYesterday"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chip_before_yesterday" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDayBeforeYesterday"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chip_before_yesterday" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.pd.photo_of_the_day_nasa.utils.CustomImageView
