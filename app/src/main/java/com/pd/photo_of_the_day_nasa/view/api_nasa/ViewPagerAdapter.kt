@@ -5,14 +5,18 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
-    FragmentStateAdapter(fragmentActivity) { // новый вью пейдер №2
+    FragmentStateAdapter(fragmentActivity) {
+    /*
+     новый вью пейдер №2
+     новый молодежный способ вместо устаревшего метода
+     */
+
 
     private val fragments = arrayOf(EarthFragment(), MarsFragment(), MoonFragment())
 
     override fun getItemCount() = fragments.size
 
     override fun createFragment(position: Int) = fragments[position]
-
 
 
 }
