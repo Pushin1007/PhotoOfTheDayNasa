@@ -14,6 +14,9 @@ class ApiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityApiBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
         binding.viewPager.adapter = ViewPagerAdapter(this)
         TabLayoutMediator(
             binding.tabLayout,
@@ -21,10 +24,16 @@ class ApiActivity : AppCompatActivity() {
             object : TabLayoutMediator.TabConfigurationStrategy {
                 override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
                 }
-
             }).attach()
 
         setCustomTabs()
+        /*
+        Вариант попроще с обычными кнопками в виде картинок бес спец лайаутов
+                binding.tabLayout.getTabAt(0)?.setIcon(R.drawable.ic_earth)
+        binding.tabLayout.getTabAt(1)?.setIcon(R.drawable.ic_mars)
+        binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_moon)
+         */
+
     }
 
 
