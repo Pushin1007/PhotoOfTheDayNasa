@@ -3,12 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/bg_mars.xml" value="0.25092592592592594" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_archive.xml" value="0.1962962962962963" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_back_fab.xml" value="0.1962962962962963" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_earth.xml" value="0.25092592592592594" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_favourite_menu.xml" value="0.1962962962962963" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_hamburger_menu_bottom_bar.xml" value="0.1962962962962963" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_mars.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_moon.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_no_photo_vector.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/ic_system.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/drawable/swipe_indicator_active.xml" value="0.20833333333333334" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/font/boncegro.xml" value="0.2328125" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/font/tienne.xml" value="0.25092592592592594" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_api.xml" value="0.1762917933130699" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_api_tabitem_earth.xml" value="0.5" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_api_tabitem_mars.xml" value="0.5" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_api_tabitem_moon.xml" value="0.5" />
+        <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_bottom_api.xml" value="0.19655797101449277" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/activity_main.xml" value="0.16945288753799392" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/bottom_n.xml" value="0.1762917933130699" />
         <entry key="..\:/Android/PhotoOfTheDayNasa/app/src/main/res/layout/bottom_navigation_layout.xml" value="0.21784420289855072" />

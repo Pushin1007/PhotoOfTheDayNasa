@@ -15,6 +15,7 @@
     <color name="color_fab_hard">#de0b3c</color>
     <color name="purple_custom">#EE00D6</color>
     <color name="purple_custom2">#F404B0</color>
-
+    <color name="colorAccent">#FFD81B60</color>
+    <color name="colorAccent40Alfa">#66D81B60</color>
 
 </resources>

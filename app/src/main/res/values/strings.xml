@@ -20,5 +20,8 @@
     <string name="chips_today">Today</string>
     <string name="chip_yesterday">Yesterday</string>
     <string name="chip_before_yesterday">Day before yesterday</string>
+    <string name="earth">Earth</string>
+    <string name="mars">Mars</string>
+    <string name="moon">Moon</string>
 
 </resources>

@@ -7,7 +7,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.ActivityApiBinding
 
-class ApiActivity: AppCompatActivity() {
+class ApiActivity : AppCompatActivity() {
     lateinit var binding: ActivityApiBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,24 +15,26 @@ class ApiActivity: AppCompatActivity() {
         binding = ActivityApiBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.viewPager.adapter = ViewPagerAdapter(this)
-//        TabLayoutMediator(binding.tabLayout,binding.viewPager, object : TabLayoutMediator.TabConfigurationStrategy{
-//            override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-//            }
-//
-//        }).attach()
+        TabLayoutMediator(
+            binding.tabLayout,
+            binding.viewPager,
+            object : TabLayoutMediator.TabConfigurationStrategy {
+                override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+                }
 
-//        setCustomTabs()
+            }).attach()
+
+        setCustomTabs()
     }
 
 
-
-//    private fun setCustomTabs() {
-//        binding.tabLayout.getTabAt(0)?.customView =
-//            layoutInflater.inflate(R.layout.activity_api_tabitem_earth, null)
-//        binding.tabLayout.getTabAt(1)?.customView =
-//            layoutInflater.inflate(R.layout.activity_api_tabitem_mars, null)
-//        binding.tabLayout.getTabAt(2)?.customView =
-//            layoutInflater.inflate(R.layout.activity_api_tabitem_system, null)
-//    }
+    private fun setCustomTabs() {// Переключение фрегментов по кнопкам
+        binding.tabLayout.getTabAt(0)?.customView =
+            layoutInflater.inflate(R.layout.activity_api_tabitem_earth, null)
+        binding.tabLayout.getTabAt(1)?.customView =
+            layoutInflater.inflate(R.layout.activity_api_tabitem_mars, null)
+        binding.tabLayout.getTabAt(2)?.customView =
+            layoutInflater.inflate(R.layout.activity_api_tabitem_moon, null)
+    }
 
 }
