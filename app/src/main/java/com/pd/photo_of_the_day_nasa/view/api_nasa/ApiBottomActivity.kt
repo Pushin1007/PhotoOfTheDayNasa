@@ -13,33 +13,33 @@ class ApiBottomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBottomApiBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        binding.bottomNavigationView.setOnItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.bottom_view_earth -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.container, EarthFragment()).commit()
-//                    true
-//                }
-//                R.id.bottom_view_mars -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.container, MarsFragment()).commit()
-//                    true
-//                }
-//                R.id.bottom_view_moon -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.container, MoonFragment()).commit()
-//                    true
-//                }
-//                else -> {
-//                    false
-//                }
-//            }
-//        }
-//        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_earth
-//        val badge = binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars)
-//        badge.number = 120
-//        badge.badgeGravity = BadgeDrawable.TOP_END
-//        badge.maxCharacterCount = 3
+        binding.bottomNavigationView.setOnItemSelectedListener { //обрабатываем нажатия на bottomNavigationView
+            when (it.itemId) {
+                R.id.bottom_view_earth -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, EarthFragment()).commit()
+                    true
+                }
+                R.id.bottom_view_mars -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, MarsFragment()).commit()
+                    true
+                }
+                R.id.bottom_view_moon -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, MoonFragment()).commit()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_earth
+        val badge = binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars)
+        badge.number = 120
+        badge.badgeGravity = BadgeDrawable.TOP_END
+        badge.maxCharacterCount = 3
     }
 
 
