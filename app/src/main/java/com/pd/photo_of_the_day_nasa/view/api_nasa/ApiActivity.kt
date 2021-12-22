@@ -28,7 +28,8 @@ class ApiActivity : AppCompatActivity() {
     }
 
 
-    private fun setCustomTabs() {// Переключение фрегментов по кнопкам
+    private fun setCustomTabs() {// Делаем  кастомные вкладки в TabLayout
+        // подключаем созданные  Layout с  картинкой  и текстом
         binding.tabLayout.getTabAt(0)?.customView =
             layoutInflater.inflate(R.layout.activity_api_tabitem_earth, null)
         binding.tabLayout.getTabAt(1)?.customView =
