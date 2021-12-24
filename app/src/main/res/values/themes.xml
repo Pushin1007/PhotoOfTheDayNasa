@@ -31,7 +31,7 @@
 
     <style name="BottomNavigationViewTheme" parent="Widget.Design.BottomNavigationView">
         <item name="labelVisibilityMode">labeled</item>
-        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnSurface">@color/cardview_dark_background</item>
         <item name="colorPrimarySurface">@color/color_gray</item>
         <item name="colorOnPrimarySurface">@color/green</item>
     </style>

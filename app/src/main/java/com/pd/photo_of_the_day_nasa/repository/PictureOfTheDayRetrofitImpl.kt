@@ -1,6 +1,7 @@
 package com.pd.photo_of_the_day_nasa.repository
 
 import com.google.gson.GsonBuilder
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -29,4 +30,11 @@ class PictureOfTheDayRetrofitImpl { // реализация интерфейса
     fun getRetrofitImpl(): PictureOfTheDayAPI {
         return api
     }
+
+    // Earth Polychromatic Imaging Camera
+    fun getEPIC(apiKey: String, epicCallback: Callback<List<EarthEpicServerResponseData>>) {
+        api.getEPIC(apiKey).enqueue(epicCallback)
+    }
+
+
 }

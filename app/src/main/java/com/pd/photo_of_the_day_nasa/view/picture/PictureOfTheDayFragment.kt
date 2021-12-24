@@ -48,7 +48,7 @@ class PictureOfTheDayFragment : Fragment() {
             renderData(it)
         })
         viewModel.sendServerRequest()
-
+        binding.chipsGroup.check(R.id.chipToday) // выбранная кнопка по умолчанию
         binding.chipsGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.chipToday -> {
@@ -111,6 +111,7 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
                 binding.includeBottomSheet.bottomSheetDescription.text = description
+
             }
         }
     }

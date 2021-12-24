@@ -3,10 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.pd.photo_of_the_day_nasa.utils.CustomImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/bg_earth" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/photo_of_the_day_stub"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_no_photo_vector" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -38,7 +38,7 @@ class ApiBottomActivity : AppCompatActivity() {
 
 
         binding.bottomNavigationView.selectedItemId =
-            R.id.bottom_view_earth // по умолчанию будет нажата кнопка земля
+            R.id.bottom_view_mars // по умолчанию будет нажата кнопка земля
 
         //Настройки  bottomNavigationView, поэкспериментируем с землей
 

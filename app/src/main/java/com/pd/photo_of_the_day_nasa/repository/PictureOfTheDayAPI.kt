@@ -15,4 +15,10 @@ interface PictureOfTheDayAPI {
         @Query("date") date: String
     ): Call<PictureOfTheDayResponseData>
 
+    // Earth Polychromatic Imaging Camera
+    @GET("EPIC/api/natural")
+    fun getEPIC(
+        @Query("api_key") apiKey: String,
+    ): Call<List<EarthEpicServerResponseData>>
+
 }
