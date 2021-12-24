@@ -17,6 +17,8 @@ import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
+import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiActivity
+import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
@@ -136,8 +138,13 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
-
+            R.id.photo_library -> startActivity(Intent(requireContext(), ApiActivity::class.java))
+            R.id.photo_libraryBND -> startActivity(
+                Intent(
+                    requireContext(),
+                    ApiBottomActivity::class.java
+                )
+            )
 
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(

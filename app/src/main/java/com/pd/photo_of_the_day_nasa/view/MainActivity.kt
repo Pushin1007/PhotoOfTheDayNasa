@@ -2,7 +2,6 @@ package com.pd.photo_of_the_day_nasa.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import com.pd.photo_of_the_day_nasa.*
 import com.pd.photo_of_the_day_nasa.databinding.ActivityMainBinding
 import com.pd.photo_of_the_day_nasa.view.picture.PictureOfTheDayFragment
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getRealStyle(currentTheme: Int): Int {
         return when (currentTheme) {
-            ThemeOne -> R.style.Grey
+            ThemeOne -> R.style.Green
             ThemeSecond -> R.style.Purple
             else -> 0
         }

@@ -2,15 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/app_bar_fav"
-        android:icon="@drawable/ic_favourite_menu"
-        android:title="@string/favourite"
+        android:id="@+id/photo_library"
+        android:icon="@drawable/ic_baseline_swap"
+        android:title="@string/photo_library"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/photo_libraryBND"
+        android:icon="@drawable/ic_photo_library"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/app_bar_settings"
         android:icon="@drawable/ic_settings_menu"
         android:title="@string/settings"
         app:showAsAction="ifRoom" />
+
 
 </menu>

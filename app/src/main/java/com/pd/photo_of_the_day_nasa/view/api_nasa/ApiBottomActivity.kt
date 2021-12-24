@@ -18,7 +18,7 @@ class ApiBottomActivity : AppCompatActivity() {
                 R.id.bottom_view_earth -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.container, EarthFragment()).commit()
-                    true
+                    true //true для кликабельности кнопки меню
                 }
                 R.id.bottom_view_mars -> {
                     supportFragmentManager.beginTransaction()
@@ -35,11 +35,19 @@ class ApiBottomActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_earth
-        val badge = binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars)
-        badge.number = 120
-        badge.badgeGravity = BadgeDrawable.TOP_END
-        badge.maxCharacterCount = 3
+
+
+        binding.bottomNavigationView.selectedItemId =
+            R.id.bottom_view_earth // по умолчанию будет нажата кнопка земля
+
+        //Настройки  bottomNavigationView, поэкспериментируем с землей
+
+        // индексы над кнопкой, например количество непрочитанных сообщений
+        val badge =
+            binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_earth)// ссылка на  Badge
+badge.number = 7 // индекс - например сообщения
+        badge.badgeGravity = BadgeDrawable.TOP_END // расположения индекса
+        badge.maxCharacterCount = 3 // максимальное количество символов в индексе
     }
 
 

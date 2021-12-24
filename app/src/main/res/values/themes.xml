@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Grey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Green" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/gray_from_theme</item>
+        <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/beige</item>
         <!-- Secondary brand color. -->
@@ -15,7 +15,7 @@
     </style>
 
 
-    <style name="Purple" parent="Grey">
+    <style name="Purple" parent="Green">
         <item name="colorPrimary">@color/purple_custom</item>
         <item name="colorPrimaryVariant">@color/purple_custom2</item>
         <item name="colorOnPrimary">@color/brown</item>
@@ -27,5 +27,12 @@
     <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">18dp</item>
+    </style>
+
+    <style name="BottomNavigationViewTheme" parent="Widget.Design.BottomNavigationView">
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimarySurface">@color/color_gray</item>
+        <item name="colorOnPrimarySurface">@color/green</item>
     </style>
 </resources>
