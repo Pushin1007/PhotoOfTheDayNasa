@@ -1,6 +1,5 @@
 package com.pd.photo_of_the_day_nasa.view.api_nasa
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentEarthBinding
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
-import androidx.lifecycle.Observer
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.pd.photo_of_the_day_nasa.BuildConfig
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
+import androidx.lifecycle.Observer
 
 class EarthFragment : Fragment() {
     private var _binding: FragmentEarthBinding? = null
@@ -33,7 +31,8 @@ class EarthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_earth, container, false)
+        _binding= FragmentEarthBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onDestroy() {
@@ -44,6 +43,7 @@ class EarthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        viewModel.getLiveData().observe(viewLifecycleOwner,{ render(it) })
         viewModel.getData().observe(viewLifecycleOwner, Observer {
             render(it)
         })
@@ -63,8 +63,8 @@ class EarthFragment : Fragment() {
 
             is PictureOfTheDayState.SuccessEarthEpic -> {
 
-                val strDate = appState.earthEpicServerResponseData.last().date.split(" ").first()
-                val image = appState.earthEpicServerResponseData.last().image
+                val strDate = appState.pictureOfTheDayResponseData.last().date.split(" ").first()
+                val image = appState.pictureOfTheDayResponseData.last().image
                 val url = "https://api.nasa.gov/EPIC/archive/natural/" +
                         strDate.replace("-", "/", true) +
                         "/png/" +

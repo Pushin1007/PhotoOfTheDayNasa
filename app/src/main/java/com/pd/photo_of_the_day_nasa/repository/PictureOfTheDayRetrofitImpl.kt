@@ -36,5 +36,13 @@ class PictureOfTheDayRetrofitImpl { // реализация интерфейса
         api.getEPIC(apiKey).enqueue(epicCallback)
     }
 
+    fun getMarsPictureByDate(
+        earth_date: String,
+        apiKey: String,
+        marsCallbackByDate: Callback<MarsPhotosServerResponseData>
+    ) {
+        api.getMarsImageByDate(earth_date, apiKey).enqueue(marsCallbackByDate)
+    }
+
 
 }

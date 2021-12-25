@@ -37,6 +37,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.chipThemeGray.setOnClickListener(this)
         binding.chipThemePurple.setOnClickListener(this)
 
