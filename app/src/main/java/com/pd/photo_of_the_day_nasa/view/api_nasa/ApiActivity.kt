@@ -43,8 +43,7 @@ class ApiActivity : AppCompatActivity() {
             layoutInflater.inflate(R.layout.activity_api_tabitem_earth, null)
         binding.tabLayout.getTabAt(1)?.customView =
             layoutInflater.inflate(R.layout.activity_api_tabitem_mars, null)
-        binding.tabLayout.getTabAt(2)?.customView =
-            layoutInflater.inflate(R.layout.activity_api_tabitem_moon, null)
+
     }
 
 }

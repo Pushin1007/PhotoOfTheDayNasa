@@ -11,8 +11,8 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
      новый молодежный способ вместо устаревшего метода
      */
 
-
-    private val fragments = arrayOf(EarthFragment(), MarsFragment(), MoonFragment())
+// пролистывание контента
+    private val fragments = arrayOf(EarthFragment(), MarsFragment())
 
     override fun getItemCount() = fragments.size
 

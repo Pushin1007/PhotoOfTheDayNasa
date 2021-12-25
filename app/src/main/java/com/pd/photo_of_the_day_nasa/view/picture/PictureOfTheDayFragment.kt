@@ -99,22 +99,44 @@ class PictureOfTheDayFragment : Fragment() {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
             }
             is PictureOfTheDayState.Success -> {
-                val pictureOfTheDayResponseData = state.pictureOfTheDayResponseData
-                val url = pictureOfTheDayResponseData.url
-                val header = pictureOfTheDayResponseData.title
-                val description = pictureOfTheDayResponseData.explanation
-                binding.imageView.load(url)
-                {
-                    lifecycle(this@PictureOfTheDayFragment)
-                    error(R.drawable.ic_load_error_vector)
-                    placeholder(R.drawable.ic_no_photo_vector)
-                }
-                binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
-                binding.includeBottomSheet.bottomSheetDescription.text = description
-
+                setData(state)
             }
         }
     }
+
+
+    private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
+        val url = data.pictureOfTheDayResponseData.hdurl
+        val header = data.pictureOfTheDayResponseData.title
+        val description = data.pictureOfTheDayResponseData.explanation
+        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+            val videoUrl = data.pictureOfTheDayResponseData.url
+            videoUrl?.let { showAVideoUrl(it) }
+        } else { // если пришла картинка
+            binding.imageView.load(url)
+            {
+                lifecycle(this@PictureOfTheDayFragment)
+                error(R.drawable.ic_load_error_vector)
+                placeholder(R.drawable.ic_no_photo_vector)
+            }
+            binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
+            binding.includeBottomSheet.bottomSheetDescription.text = description
+        }
+    }
+
+    private fun showAVideoUrl(videoUrl: String) =
+        with(binding) {//показываем видео, скрываем картинку
+            imageView.visibility = View.GONE
+            videoOfTheDay.visibility = View.VISIBLE
+            videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
+                    "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
+            videoOfTheDay.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(videoUrl)
+                }
+                startActivity(i)
+            }
+        }
 
 
     override fun onCreateView(

@@ -25,16 +25,13 @@ class ApiBottomActivity : AppCompatActivity() {
                         .replace(R.id.container, MarsFragment()).commit()
                     true
                 }
-                R.id.bottom_view_moon -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, MoonFragment()).commit()
-                    true
-                }
                 else -> {
                     false
                 }
             }
         }
+
+
 
 
         binding.bottomNavigationView.selectedItemId =
@@ -45,7 +42,7 @@ class ApiBottomActivity : AppCompatActivity() {
         // индексы над кнопкой, например количество непрочитанных сообщений
         val badge =
             binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_earth)// ссылка на  Badge
-badge.number = 7 // индекс - например сообщения
+        badge.number = 7 // индекс - например сообщения, ничего не значит, исключительно для обучения
         badge.badgeGravity = BadgeDrawable.TOP_END // расположения индекса
         badge.maxCharacterCount = 3 // максимальное количество символов в индексе
     }

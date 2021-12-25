@@ -37,13 +37,13 @@ class PictureOfTheDayViewModel(
         }
     }
 
-    fun sendServerRequest(date:String) { // запрос с датой
+    fun sendServerRequest(date: String) { // запрос с датой
         liveDataForViewToObserve.value = PictureOfTheDayState.Loading
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
             liveDataForViewToObserve.value = PictureOfTheDayState.Error(Throwable("wrong key"))
         } else {
-            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey,date).enqueue(callback)
+            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey, date).enqueue(callback)
         }
     }
 
@@ -66,6 +66,7 @@ class PictureOfTheDayViewModel(
         }
 
     }
+
     // Earth Polychromatic Imaging Camera
     fun getEpic() {
         liveDataForViewToObserve.postValue(PictureOfTheDayState.Loading)
@@ -89,7 +90,13 @@ class PictureOfTheDayViewModel(
             } else {
                 val message = response.message()
                 if (message.isNullOrEmpty()) {
-                    liveDataForViewToObserve.postValue(PictureOfTheDayState.Error(Throwable(UNKNOWN_ERROR)))
+                    liveDataForViewToObserve.postValue(
+                        PictureOfTheDayState.Error(
+                            Throwable(
+                                UNKNOWN_ERROR
+                            )
+                        )
+                    )
                 } else {
                     liveDataForViewToObserve.postValue(PictureOfTheDayState.Error(Throwable(message)))
                 }
@@ -105,8 +112,9 @@ class PictureOfTheDayViewModel(
     fun getMarsPicture() {
         liveDataForViewToObserve.postValue(PictureOfTheDayState.Loading)
         val earthDate = getDayBeforeYesterday()
-        retrofitImpl.getMarsPictureByDate(earthDate,BuildConfig.NASA_API_KEY, marsCallback)
+        retrofitImpl.getMarsPictureByDate(earthDate, BuildConfig.NASA_API_KEY, marsCallback)
     }
+
     fun getDayBeforeYesterday(): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val yesterday = LocalDateTime.now().minusDays(2)
@@ -119,6 +127,7 @@ class PictureOfTheDayViewModel(
             return s.format(cal.time)
         }
     }
+
     val marsCallback = object : Callback<MarsPhotosServerResponseData> {
 
         override fun onResponse(
@@ -130,7 +139,13 @@ class PictureOfTheDayViewModel(
             } else {
                 val message = response.message()
                 if (message.isNullOrEmpty()) {
-                    liveDataForViewToObserve.postValue(PictureOfTheDayState.Error(Throwable(UNKNOWN_ERROR)))
+                    liveDataForViewToObserve.postValue(
+                        PictureOfTheDayState.Error(
+                            Throwable(
+                                UNKNOWN_ERROR
+                            )
+                        )
+                    )
                 } else {
                     liveDataForViewToObserve.postValue(PictureOfTheDayState.Error(Throwable(message)))
                 }
@@ -141,9 +156,8 @@ class PictureOfTheDayViewModel(
             liveDataForViewToObserve.postValue(PictureOfTheDayState.Error(t))
         }
     }
-    fun getLiveData(): LiveData<PictureOfTheDayState> {
-        return liveDataForViewToObserve
-    }
+
+
     companion object {
         private const val API_ERROR = "You need API Key"
         private const val UNKNOWN_ERROR = "Unidentified error"

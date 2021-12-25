@@ -24,5 +24,7 @@
     <string name="mars">Mars</string>
     <string name="moon">Moon</string>
     <string name="photo_library">Photo Planets</string>
+    <string name="mp_foto_curiosity">Фото из архива. В этот день Curiosity не сделал ни одного снимка</string>
+
 
 </resources>

@@ -43,7 +43,7 @@ class EarthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.getLiveData().observe(viewLifecycleOwner,{ render(it) })
+
         viewModel.getData().observe(viewLifecycleOwner, Observer {
             render(it)
         })

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.pd.photo_of_the_day_nasa.BuildConfig
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentEarthBinding
@@ -16,7 +17,7 @@ import com.pd.photo_of_the_day_nasa.databinding.FragmentMarsBinding
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
 
-class MarsFragment: Fragment() {
+class MarsFragment : Fragment() {
 
     private var _binding: FragmentMarsBinding? = null
     val binding: FragmentMarsBinding
@@ -33,7 +34,7 @@ class MarsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding= FragmentMarsBinding.inflate(inflater,container,false)
+        _binding = FragmentMarsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,13 +46,14 @@ class MarsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.getLiveData().observe(viewLifecycleOwner,{ render(it) })
+
         viewModel.getData().observe(viewLifecycleOwner, Observer {
             render(it)
         })
-        viewModel.getEpic()
+        viewModel.getMarsPicture()
 
     }
+
     private fun render(appState: PictureOfTheDayState) {
         when (appState) {
             is PictureOfTheDayState.Error -> {
@@ -61,20 +63,20 @@ class MarsFragment: Fragment() {
             is PictureOfTheDayState.Loading -> {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
             }
+            is PictureOfTheDayState.SuccessMars -> {
+                if (appState.serverResponseData.photos.isEmpty()) {
+                    binding.imageView.load(R.drawable.mars_foto)
 
-            is PictureOfTheDayState.SuccessEarthEpic -> {
+                    Snackbar.make(binding.root, R.string.mp_foto_curiosity, Snackbar.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val url = appState.serverResponseData.photos.first().imgSrc
+                    binding.imageView.load(url)
+                }
 
-                val strDate = appState.pictureOfTheDayResponseData.last().date.split(" ").first()
-                val image = appState.pictureOfTheDayResponseData.last().image
-                val url = "https://api.nasa.gov/EPIC/archive/natural/" +
-                        strDate.replace("-", "/", true) +
-                        "/png/" +
-                        "$image" +
-                        ".png?api_key=${BuildConfig.NASA_API_KEY}"
-                binding.imageView.load(url)
             }
-
 
         }
     }
 }
+

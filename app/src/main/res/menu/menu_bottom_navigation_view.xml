@@ -10,9 +10,6 @@
         android:icon="@drawable/ic_mars"
         android:title="@string/mars" />
 
-    <item
-        android:id="@+id/bottom_view_moon"
-        android:icon="@drawable/ic_moon"
-        android:title="@string/moon" />
+
 
 </menu>
