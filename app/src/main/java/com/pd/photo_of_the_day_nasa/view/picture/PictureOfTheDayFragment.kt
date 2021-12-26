@@ -106,10 +106,12 @@ class PictureOfTheDayFragment : Fragment() {
 
 
     private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
-        val url = data.pictureOfTheDayResponseData.hdurl
+        val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
+        //val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
         val header = data.pictureOfTheDayResponseData.title
         val description = data.pictureOfTheDayResponseData.explanation
-        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+            if (data.pictureOfTheDayResponseData.mediaType == "video"){ // проверка по медиа тайп
             val videoUrl = data.pictureOfTheDayResponseData.url
             videoUrl?.let { showAVideoUrl(it) }
         } else { // если пришла картинка
@@ -137,6 +139,8 @@ class PictureOfTheDayFragment : Fragment() {
                 startActivity(i)
             }
         }
+
+
 
 
     override fun onCreateView(
