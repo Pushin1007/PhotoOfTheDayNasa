@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Grey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Green" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#A39DAC</item>
+        <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">#F1F8E9</item>
+        <item name="colorOnPrimary">@color/beige</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -12,16 +12,27 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
-        <!-- Customize your theme here. -->
     </style>
 
 
-    <style name="Purple" parent="Grey">
-
+    <style name="Purple" parent="Green">
         <item name="colorPrimary">@color/purple_custom</item>
-        <item name="colorPrimaryVariant">#F404B0</item>
-        <item name="colorOnPrimary">#B69F9F</item>
+        <item name="colorPrimaryVariant">@color/purple_custom2</item>
+        <item name="colorOnPrimary">@color/brown</item>
         <item name="android:textColor">@color/purple_custom</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
 
+    </style>
+
+    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <style name="BottomNavigationViewTheme" parent="Widget.Design.BottomNavigationView">
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="colorOnSurface">@color/cardview_dark_background</item>
+        <item name="colorPrimarySurface">@color/color_gray</item>
+        <item name="colorOnPrimarySurface">@color/green</item>
     </style>
 </resources>

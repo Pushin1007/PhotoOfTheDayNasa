@@ -17,9 +17,13 @@ import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
+import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiActivity
+import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -44,25 +48,24 @@ class PictureOfTheDayFragment : Fragment() {
             renderData(it)
         })
         viewModel.sendServerRequest()
-
-        binding.chipsGroup.setOnCheckedChangeListener { _, checkedId ->
+        binding.chipsGroup.check(R.id.chipToday) // выбранная кнопка по умолчанию
+        binding.chipsGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.chipToday -> {
-// вот здесь не пойму как обработать....
-//                    chipsDayGroup.chipsGroup.check(R.id.chipToday)
-//                    viewModel.getPODFromServer(getDay(TODAY))
+                    viewModel.sendServerRequest()
                 }
                 R.id.chipYesterday -> {
-//                    chipsDayGroup.chipsGroup.check(R.id.chipYesterday)
-//                    viewModel.getPODFromServer(getDay(YESTERDAY))
+                    viewModel.sendServerRequest(takeDate(-1))
                 }
                 R.id.chipDayBeforeYesterday -> {
-//                    chipsDayGroup.chipsGroup.check(R.id.chipDayBeforeYesterday)
-//                    viewModel.getPODFromServer(getDay(BEFORE_YESTERDAY))
+                    viewModel.sendServerRequest(takeDate(-2))
                 }
-//                else -> viewModel.getPODFromServer(getDay(TODAY))
+                else -> viewModel.sendServerRequest()
             }
         }
+
+
+
 
 
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
@@ -77,6 +80,15 @@ class PictureOfTheDayFragment : Fragment() {
 
     }
 
+    private fun takeDate(count: Int): String { // преобразовываем дату в нужном формате
+        val currentDate = Calendar.getInstance()
+        currentDate.add(Calendar.DAY_OF_MONTH, count)
+        val format1 =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())// приводим к нужному формату
+        format1.timeZone = TimeZone.getTimeZone("EST") // меняем временную зону
+        return format1.format(currentDate.time)
+    }
+
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
             is PictureOfTheDayState.Error -> {
@@ -87,21 +99,44 @@ class PictureOfTheDayFragment : Fragment() {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
             }
             is PictureOfTheDayState.Success -> {
-                val pictureOfTheDayResponseData = state.pictureOfTheDayResponseData
-                val url = pictureOfTheDayResponseData.url
-                val header = pictureOfTheDayResponseData.title
-                val description = pictureOfTheDayResponseData.explanation
-                binding.imageView.load(url)
-                {
-                    lifecycle(this@PictureOfTheDayFragment)
-                    error(R.drawable.ic_load_error_vector)
-                    placeholder(R.drawable.ic_no_photo_vector)
-                }
-                binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
-                binding.includeBottomSheet.bottomSheetDescription.text = description
+                setData(state)
             }
         }
     }
+
+
+    private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
+        val url = data.pictureOfTheDayResponseData.hdurl
+        val header = data.pictureOfTheDayResponseData.title
+        val description = data.pictureOfTheDayResponseData.explanation
+        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+            val videoUrl = data.pictureOfTheDayResponseData.url
+            videoUrl?.let { showAVideoUrl(it) }
+        } else { // если пришла картинка
+            binding.imageView.load(url)
+            {
+                lifecycle(this@PictureOfTheDayFragment)
+                error(R.drawable.ic_load_error_vector)
+                placeholder(R.drawable.ic_no_photo_vector)
+            }
+            binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
+            binding.includeBottomSheet.bottomSheetDescription.text = description
+        }
+    }
+
+    private fun showAVideoUrl(videoUrl: String) =
+        with(binding) {//показываем видео, скрываем картинку
+            imageView.visibility = View.GONE
+            videoOfTheDay.visibility = View.VISIBLE
+            videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
+                    "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
+            videoOfTheDay.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(videoUrl)
+                }
+                startActivity(i)
+            }
+        }
 
 
     override fun onCreateView(
@@ -126,8 +161,13 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
-
+            R.id.photo_library -> startActivity(Intent(requireContext(), ApiActivity::class.java))
+            R.id.photo_libraryBND -> startActivity(
+                Intent(
+                    requireContext(),
+                    ApiBottomActivity::class.java
+                )
+            )
 
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(

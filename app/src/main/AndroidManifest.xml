@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Grey">
+        android:theme="@style/Green">
         <activity
             android:name=".view.MainActivity"
             android:exported="true">
@@ -20,6 +20,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.api_nasa.ApiActivity"
+            android:exported="true">
+
+        </activity>
+
+        <activity
+            android:name=".view.api_nasa.ApiBottomActivity"
+            android:exported="true">
+
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

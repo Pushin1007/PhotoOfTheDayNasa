@@ -15,10 +15,16 @@
     <string name="description">This lovely starfield spans some four full moons.</string>
     <string name="description_header">Two Clusters and a Comet</string>
     <string name="choose_theme">Let\'s choose an application theme ...</string>
-    <string name="gray">Gray</string>
+    <string name="green">Green</string>
     <string name="purple">Purple</string>
     <string name="chips_today">Today</string>
     <string name="chip_yesterday">Yesterday</string>
     <string name="chip_before_yesterday">Day before yesterday</string>
+    <string name="earth">Earth</string>
+    <string name="mars">Mars</string>
+    <string name="moon">Moon</string>
+    <string name="photo_library">Photo Planets</string>
+    <string name="mp_foto_curiosity">Фото из архива. В этот день Curiosity не сделал ни одного снимка</string>
+
 
 </resources>
