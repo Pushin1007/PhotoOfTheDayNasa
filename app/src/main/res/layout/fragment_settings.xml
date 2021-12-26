@@ -6,12 +6,29 @@
     android:orientation="vertical"
     tools:context="com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment">
 
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="header_title" />
+        app:constraint_referenced_ids="header_title,header_text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2
+" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3
+" />
 
     <TextView
         android:id="@+id/header_title"
@@ -23,12 +40,25 @@
         android:paddingStart="@dimen/padding_main"
         android:paddingEnd="@dimen/padding_main"
         android:text="@string/choose_theme"
-        app:layout_constraintBottom_toTopOf="@id/chipThemeGroup"
+        app:layout_constraintBottom_toTopOf="@id/header_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin5"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_main"
+        android:paddingEnd="@dimen/padding_main"
+        android:text="@string/choose_theme_text"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_title" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipThemeGroup"
