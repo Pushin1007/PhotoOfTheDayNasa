@@ -34,7 +34,9 @@ class CoordinatorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val nestedBehavior = NestedBehavior()
+        val nestedBehavior = NestedBehavior() // подключение  Behavior через код
+        // Behavior кнопки подключен через  Layout
+
         (binding.nested.layoutParams as CoordinatorLayout.LayoutParams).behavior = nestedBehavior
     }
 
@@ -43,4 +45,6 @@ class CoordinatorFragment : Fragment() {
         fun newInstance() =
             CoordinatorFragment()
     }
+
+
 }

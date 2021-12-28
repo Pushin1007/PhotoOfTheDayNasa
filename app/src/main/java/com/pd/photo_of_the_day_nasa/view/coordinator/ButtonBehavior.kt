@@ -9,6 +9,7 @@ import kotlin.math.abs
 
 class ButtonBehavior(context: Context, attr: AttributeSet) :
     CoordinatorLayout.Behavior<View>(context, attr) { // передаем в  Behavior атрибуты
+    //Behavior прикреплен в Layout
 
     override fun layoutDependsOn( // делаем зависимость от AppBarLayout
         parent: CoordinatorLayout,
@@ -30,9 +31,8 @@ class ButtonBehavior(context: Context, attr: AttributeSet) :
             child.visibility = View.GONE
         } else {
             child.visibility = View.VISIBLE
-            child.alpha = (height / 2 - abs(bar.y)) / (height / 2)
+            child.alpha = (height / 2 - abs(bar.y)) / (height / 2) // делаем прозрачность
         }
-
         return super.onDependentViewChanged(parent, child, dependency)
     }
 }
