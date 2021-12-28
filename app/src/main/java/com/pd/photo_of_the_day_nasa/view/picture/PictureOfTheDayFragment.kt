@@ -132,28 +132,42 @@ class PictureOfTheDayFragment : Fragment() {
         with(binding) {//показываем видео, скрываем картинку
             imageView.visibility = View.GONE
 
-//            videoOfTheDay.visibility = View.VISIBLE
-//            videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
-//                    "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
-//            videoOfTheDay.setOnClickListener {
-//                val i = Intent(Intent.ACTION_VIEW).apply {
-//                    data = Uri.parse(videoUrl)
-//                }
-//                startActivity(i)
-//            }
-
-            youtubePlayerView.visibility = View.VISIBLE
-            lifecycle.addObserver(binding.youtubePlayerView)
-            binding.youtubePlayerView.addYouTubePlayerListener(object :
-                AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-
-                    youTubePlayer.loadVideo(videoUrl, 0f)
-//                                        youTubePlayer.loadVideo("e83fjUuBSvc", 0f)//для проверки. Здесь нужно video id
+            videoOfTheDay.visibility = View.VISIBLE
+            videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
+                    "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
+            videoOfTheDay.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(videoUrl)
                 }
-            })
+                startActivity(i)
+            }
+
+//            youtubePlayerView.visibility = View.VISIBLE
+//            lifecycle.addObserver(binding.youtubePlayerView)
+//            binding.youtubePlayerView.addYouTubePlayerListener(object :
+//                AbstractYouTubePlayerListener() {
+//                override fun onReady(youTubePlayer: YouTubePlayer) {
+//
+//                    youTubePlayer.loadVideo(extractId(videoUrl), 0f)
+////                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки. Здесь нужно video id
+//                }
+//            })
         }
 
+    fun extractId(text: String): String {
+
+        val parts = text.split("/")
+
+        if (text.contains("https://youtu.be/")) {
+            return parts.get(parts.size - 1)
+        }
+
+        if (text.contains("https://www.youtube.com/") && text.contains("embed/")) {
+            return (parts.get(parts.size - 1)).replace("embed/", "")
+        }
+
+        return "";
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
