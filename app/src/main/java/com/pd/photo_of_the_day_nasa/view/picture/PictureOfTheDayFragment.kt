@@ -26,6 +26,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -109,7 +111,7 @@ class PictureOfTheDayFragment : Fragment() {
 
     private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
         val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
-        //val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
+//        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
         val header = data.pictureOfTheDayResponseData.title
         val description = data.pictureOfTheDayResponseData.explanation
 //        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
@@ -117,7 +119,10 @@ class PictureOfTheDayFragment : Fragment() {
             val videoUrl = data.pictureOfTheDayResponseData.url
             videoUrl?.let { showAVideoUrl(it) }
         } else { // если пришла картинка
+            binding.imageView.visibility = View.VISIBLE
+            binding.youtubePlayerView.visibility = View.GONE
             binding.imageView.load(url)
+
             {
                 lifecycle(this@PictureOfTheDayFragment)
                 error(R.drawable.ic_load_error_vector)
@@ -131,7 +136,8 @@ class PictureOfTheDayFragment : Fragment() {
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
             imageView.visibility = View.GONE
-
+/*
+Способ открытия видео через интент в приложении ютуба
             videoOfTheDay.visibility = View.VISIBLE
             videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
                     "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
@@ -141,33 +147,34 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 startActivity(i)
             }
+             */
+//способ открытия через встроенный ютуб
+            youtubePlayerView.visibility = View.VISIBLE
+            lifecycle.addObserver(binding.youtubePlayerView)
+            binding.youtubePlayerView.addYouTubePlayerListener(object :
+                AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
 
-//            youtubePlayerView.visibility = View.VISIBLE
-//            lifecycle.addObserver(binding.youtubePlayerView)
-//            binding.youtubePlayerView.addYouTubePlayerListener(object :
-//                AbstractYouTubePlayerListener() {
-//                override fun onReady(youTubePlayer: YouTubePlayer) {
-//
-//                    youTubePlayer.loadVideo(extractId(videoUrl), 0f)
-////                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки. Здесь нужно video id
-//                }
-//            })
+                    extractId(videoUrl)?.let { youTubePlayer.loadVideo(it, 0f) } // проверка на ноль
+//                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
+                }
+            })
         }
 
-    fun extractId(text: String): String {
+    fun extractId(ytUrl: String): String? { // выдергиваем id видео из  полного url
 
-        val parts = text.split("/")
-
-        if (text.contains("https://youtu.be/")) {
-            return parts.get(parts.size - 1)
+        var vId: String? = null
+        val pattern: Pattern = Pattern.compile(
+            "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+            Pattern.CASE_INSENSITIVE
+        )
+        val matcher: Matcher = pattern.matcher(ytUrl)
+        if (matcher.matches()) {
+            vId = matcher.group(1)
         }
-
-        if (text.contains("https://www.youtube.com/") && text.contains("embed/")) {
-            return (parts.get(parts.size - 1)).replace("embed/", "")
-        }
-
-        return "";
+        return vId
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

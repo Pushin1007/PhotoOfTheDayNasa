@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.BottomNavigationLayoutBinding
+import com.pd.photo_of_the_day_nasa.view.coordinator.CoordinatorFragment
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -30,7 +31,8 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 // обрабатываем нажатия
             when (menuItem.itemId) {
                 R.id.navigation_one -> {
-                    Toast.makeText(context, "1", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, CoordinatorFragment.newInstance()).addToBackStack("").commit()
                 }
                 R.id.navigation_two -> {
                     Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
@@ -39,7 +41,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                     Toast.makeText(context, "3", Toast.LENGTH_SHORT).show()
                 }
             }
-
+            dismiss()// скрытие меню
             true
         }
     }
