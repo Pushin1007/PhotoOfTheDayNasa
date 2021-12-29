@@ -16,6 +16,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+
 import com.pd.photo_of_the_day_nasa.view.MainActivity
 import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiActivity
 import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
@@ -110,8 +111,8 @@ class PictureOfTheDayFragment : Fragment() {
 
 
     private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
-        val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
-//        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
+//        val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
+        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
         val header = data.pictureOfTheDayResponseData.title
         val description = data.pictureOfTheDayResponseData.explanation
 //        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
@@ -135,9 +136,9 @@ class PictureOfTheDayFragment : Fragment() {
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
-            imageView.visibility = View.GONE
+            binding.imageView.visibility = View.GONE
 /*
-Способ открытия видео через интент в приложении ютуба
+//Способ открытия видео через интент в приложении ютуба
             videoOfTheDay.visibility = View.VISIBLE
             videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
                     "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
@@ -147,7 +148,8 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 startActivity(i)
             }
-             */
+*/
+
 //способ открытия через встроенный ютуб
             youtubePlayerView.visibility = View.VISIBLE
             lifecycle.addObserver(binding.youtubePlayerView)
@@ -155,7 +157,12 @@ class PictureOfTheDayFragment : Fragment() {
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
 
-                    extractId(videoUrl)?.let { youTubePlayer.loadVideo(it, 0f) } // проверка на ноль
+                    extractId(videoUrl)?.let {
+                        youTubePlayer.loadVideo(
+                            it,
+                            0f
+                        )
+                    } // проверка на ноль
 //                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
                 }
             })
@@ -198,7 +205,12 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.photo_library -> startActivity(Intent(requireContext(), ApiActivity::class.java))
+            R.id.photo_library -> startActivity(
+                Intent(
+                    requireContext(),
+                    ApiActivity::class.java
+                )
+            )
             R.id.photo_libraryBND -> startActivity(
                 Intent(
                     requireContext(),
