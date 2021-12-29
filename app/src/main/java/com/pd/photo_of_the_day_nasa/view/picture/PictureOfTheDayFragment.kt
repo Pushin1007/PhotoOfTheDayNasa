@@ -122,13 +122,14 @@ class PictureOfTheDayFragment : Fragment() {
             includeBottomSheet.bottomSheetDescription.text = description
             if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
                 val videoUrl = data.pictureOfTheDayResponseData.url
-                youtubePlayerView.visibility = View.VISIBLE
+//                youtubePlayerView.visibility = View.VISIBLE
                 imageView.visibility = View.GONE
+
                 videoUrl?.let { showAVideoUrl(it) }
 
             } else { // если пришла картинка
                 imageView.visibility = View.VISIBLE
-                youtubePlayerView.visibility = View.GONE
+//                youtubePlayerView.visibility = View.GONE
                 imageView.load(url)
 
                 {
@@ -142,9 +143,10 @@ class PictureOfTheDayFragment : Fragment() {
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
-/*
+
 //Способ открытия видео через интент в приложении ютуба
             videoOfTheDay.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
             videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
                     "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
             videoOfTheDay.setOnClickListener {
@@ -153,8 +155,8 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 startActivity(i)
             }
-*/
 
+/*
 //способ открытия через встроенный ютуб
             lifecycle.addObserver(youtubePlayerView)
             youtubePlayerView.addYouTubePlayerListener(object :
@@ -169,6 +171,8 @@ class PictureOfTheDayFragment : Fragment() {
                                         youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
                 }
             })
+
+ */
         }
 
     fun extractId(ytUrl: String): String? { // выдергиваем id видео из  полного url

@@ -93,28 +93,28 @@
 
             app:srcCompat="@drawable/ic_no_photo_vector" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/videoOfTheDay"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textColor="@color/purple_700"-->
-<!--            android:textStyle="bold"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/imageView" />-->
-
-        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-            android:id="@+id/youtube_player_view"
+        <TextView
+            android:id="@+id/videoOfTheDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:textColor="@color/purple_700"
+            android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showFullScreenButton="false" />
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+<!--        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView-->
+<!--            android:id="@+id/youtube_player_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:showFullScreenButton="false" />-->
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <include
