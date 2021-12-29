@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentCoordinatorBinding
+import com.pd.photo_of_the_day_nasa.view.picture.PictureOfTheDayFragment
 
 class CoordinatorFragment : Fragment() {
 
@@ -38,7 +40,11 @@ class CoordinatorFragment : Fragment() {
         // Behavior кнопки подключен через  Layout
 
         (binding.nested.layoutParams as CoordinatorLayout.LayoutParams).behavior = nestedBehavior
-    }
+        binding.myButton.setOnClickListener(){
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, PictureOfTheDayFragment.newInstance()).commit()
+        }
+    }// получаем параметры Nested, извлекаем параметры,явно приводим и вызываем behavior
 
     companion object {
         @JvmStatic

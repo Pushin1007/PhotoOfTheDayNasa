@@ -71,7 +71,6 @@
                 android:gravity="center"
                 android:paddingStart="@dimen/padding_main"
                 android:paddingEnd="@dimen/padding_main"
-
                 android:text="@string/mars_description" />
 
         </LinearLayout>
@@ -83,10 +82,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="main"
+        android:text="@string/main"
         app:layout_anchor="@id/main_appbar"
         app:layout_anchorGravity="bottom|end"
         app:layout_behavior="com.pd.photo_of_the_day_nasa.view.coordinator.ButtonBehavior"
-        app:srcCompat="@drawable/ic_plus_fab" />
+         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
