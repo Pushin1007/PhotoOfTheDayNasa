@@ -15,7 +15,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 
 import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
-import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+import com.pd.photo_of_the_day_nasa.databinding.FragmentMainStartBinding
 
 import com.pd.photo_of_the_day_nasa.view.MainActivity
 import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiActivity
@@ -32,8 +32,8 @@ import java.util.regex.Pattern
 
 class PictureOfTheDayFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    val binding: FragmentMainBinding
+    private var _binding: FragmentMainStartBinding? = null
+    val binding: FragmentMainStartBinding
         get() {
             return _binding!!
         }
@@ -110,33 +110,38 @@ class PictureOfTheDayFragment : Fragment() {
     }
 
 
-    private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
-//        val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
-        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
-        val header = data.pictureOfTheDayResponseData.title
-        val description = data.pictureOfTheDayResponseData.explanation
-//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
-        if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
-            val videoUrl = data.pictureOfTheDayResponseData.url
-            videoUrl?.let { showAVideoUrl(it) }
-        } else { // если пришла картинка
-            binding.imageView.visibility = View.VISIBLE
-            binding.youtubePlayerView.visibility = View.GONE
-            binding.imageView.load(url)
+    private fun setData(data: PictureOfTheDayState.Success) =
+        with(binding) {// определяем что пришло, картинка или видео
 
-            {
-                lifecycle(this@PictureOfTheDayFragment)
-                error(R.drawable.ic_load_error_vector)
-                placeholder(R.drawable.ic_no_photo_vector)
+            val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
+//        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
+            val header = data.pictureOfTheDayResponseData.title
+            val description = data.pictureOfTheDayResponseData.explanation
+//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+            includeBottomSheet.bottomSheetDescriptionHeader.text = header
+            includeBottomSheet.bottomSheetDescription.text = description
+            if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
+                val videoUrl = data.pictureOfTheDayResponseData.url
+                youtubePlayerView.visibility = View.VISIBLE
+                imageView.visibility = View.GONE
+                videoUrl?.let { showAVideoUrl(it) }
+
+            } else { // если пришла картинка
+                imageView.visibility = View.VISIBLE
+                youtubePlayerView.visibility = View.GONE
+                imageView.load(url)
+
+                {
+                    lifecycle(this@PictureOfTheDayFragment)
+                    error(R.drawable.ic_load_error_vector)
+                    placeholder(R.drawable.ic_no_photo_vector)
+                }
+
             }
-            binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
-            binding.includeBottomSheet.bottomSheetDescription.text = description
         }
-    }
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
-            binding.imageView.visibility = View.GONE
 /*
 //Способ открытия видео через интент в приложении ютуба
             videoOfTheDay.visibility = View.VISIBLE
@@ -151,19 +156,17 @@ class PictureOfTheDayFragment : Fragment() {
 */
 
 //способ открытия через встроенный ютуб
-            youtubePlayerView.visibility = View.VISIBLE
-            lifecycle.addObserver(binding.youtubePlayerView)
-            binding.youtubePlayerView.addYouTubePlayerListener(object :
+            lifecycle.addObserver(youtubePlayerView)
+            youtubePlayerView.addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-
-                    extractId(videoUrl)?.let {
-                        youTubePlayer.loadVideo(
-                            it,
-                            0f
-                        )
-                    } // проверка на ноль
-//                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
+//                    extractId(videoUrl)?.let {
+//                        youTubePlayer.loadVideo(
+//                            it,
+//                            0f
+//                        )
+//                    } // проверка на ноль
+                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
                 }
             })
         }
@@ -188,7 +191,7 @@ class PictureOfTheDayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
