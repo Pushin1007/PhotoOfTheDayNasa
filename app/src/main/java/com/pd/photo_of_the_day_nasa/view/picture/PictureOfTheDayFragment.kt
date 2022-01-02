@@ -3,6 +3,7 @@ package com.pd.photo_of_the_day_nasa.view.picture
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.TransitionManager
 
 import android.view.*
 import android.widget.Toast
@@ -67,6 +68,7 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 else -> viewModel.sendServerRequest()
             }
+
         }
 
 
