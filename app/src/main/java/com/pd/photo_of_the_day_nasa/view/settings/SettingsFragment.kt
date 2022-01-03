@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.Fade
 import androidx.transition.TransitionSet
 import com.pd.photo_of_the_day_nasa.*
@@ -62,6 +64,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             slide.duration =
                 ANIMATION_TIME_LONG// длительность анимации, можно задавать как вместе так и по отдетности
             val changeBounds = ChangeBounds()
+            slide.interpolator = AnticipateOvershootInterpolator(2f)// делаем как на пружинке
             changeBounds.duration = ANIMATION_TIME_SHORT
             transition.addTransition(slide)//вид анимации слайд
             transition.addTransition(changeBounds)//вид анимации изсенение размеров
@@ -91,6 +94,27 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                             .show()
                     }
                 })
+        }
+
+        binding.buttonInfo.setOnClickListener { // изменение  Constraint в коде без применения MotionLayout и  двух активити
+
+            val constraintSet = ConstraintSet()
+
+            constraintSet.clone(context, R.layout.fragment_settings) //клонируем макет
+            constraintSet.connect(
+                R.id.header_text,
+                ConstraintSet.START,
+                R.id.settings,
+                ConstraintSet.START
+            )// програмно меняем в нем  Constraint
+
+            val transition = ChangeBounds()
+            transition.duration = ANIMATION_TIME_SHORT
+            transition.interpolator = AnticipateOvershootInterpolator(5f) //пружинка
+
+            TransitionManager.beginDelayedTransition(binding.settings, transition)
+            constraintSet.applyTo(binding.settings) //применяем наш сет
+
         }
 
     }
