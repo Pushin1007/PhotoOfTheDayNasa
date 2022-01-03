@@ -1,5 +1,7 @@
 package com.pd.photo_of_the_day_nasa.view.settings
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.Fade
 import androidx.transition.TransitionSet
@@ -79,6 +82,15 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             binding.changeThemeButton.animate()
                 .alpha(0f)
                 .setDuration(ANIMATION_TIME_SHORT)
+                .setListener(object : AnimatorListenerAdapter() { //улавливаем конец анимации
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        binding.changeThemeButton.isClickable =
+                            false // делаем кнопку не кликабельной
+                        Toast.makeText(context, "Теперь можно выбрать тему", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                })
         }
 
     }
