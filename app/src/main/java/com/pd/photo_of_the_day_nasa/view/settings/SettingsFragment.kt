@@ -1,5 +1,6 @@
 package com.pd.photo_of_the_day_nasa.view.settings
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.Fade
 import androidx.transition.TransitionSet
 import com.pd.photo_of_the_day_nasa.*
@@ -51,20 +54,20 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         }
         binding.changeThemeButton.setOnClickListener {// при нажатии на кнопку показываем чипы тем
             isChipGroupVisible = !isChipGroupVisible
-
             val transition = TransitionSet() // несколько анимаций
             val slide = Slide(Gravity.END)
-            slide.duration = ANIMATION_TIME_LONG// длительность анимации, можно задавать как вместе так и по отдетности
+            slide.duration =
+                ANIMATION_TIME_LONG// длительность анимации, можно задавать как вместе так и по отдетности
             val changeBounds = ChangeBounds()
             changeBounds.duration = ANIMATION_TIME_SHORT
             transition.addTransition(slide)//вид анимации слайд
-            transition.addTransition(changeBounds)//вид анимации изсенение разсеров
+            transition.addTransition(changeBounds)//вид анимации изсенение размеров
             //val transition = AutoTransition()// сама определяет
 
             TransitionManager.beginDelayedTransition(binding.settings, transition)
-
             binding.chipThemeGroup.visibility = if (isChipGroupVisible) View.VISIBLE else View.GONE
-
+            binding.changeThemeButton.text = "Меняй"
+            ObjectAnimator.ofFloat(binding.changeThemeButton, "rotation", 0f, 360f).start()
         }
 
     }

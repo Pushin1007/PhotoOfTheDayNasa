@@ -57,6 +57,8 @@ class PictureOfTheDayFragment : Fragment() {
 
     private var isExpand = false
 
+    private var isFabHide = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData().observe(viewLifecycleOwner, Observer {
@@ -95,11 +97,12 @@ class PictureOfTheDayFragment : Fragment() {
 
             val transition = ChangeImageTransform() //специальная трансформация для картинок
             transition.duration = ANIMATION_TIME_LONG
-            TransitionManager.beginDelayedTransition(binding.main, transition)
+            TransitionManager.beginDelayedTransition(binding.main, transition) // вызов анимации
 
             if (isExpand) {
                 binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-                params.height = ViewGroup.LayoutParams.MATCH_PARENT // меняем параметры контейнера- работаем наружу
+                params.height =
+                    ViewGroup.LayoutParams.MATCH_PARENT // меняем параметры контейнера- работаем наружу
             } else {
                 binding.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT
