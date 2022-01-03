@@ -66,8 +66,19 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
             TransitionManager.beginDelayedTransition(binding.settings, transition)
             binding.chipThemeGroup.visibility = if (isChipGroupVisible) View.VISIBLE else View.GONE
-            binding.changeThemeButton.text = "Меняй"
-            ObjectAnimator.ofFloat(binding.changeThemeButton, "rotation", 0f, 360f).start()
+            //binding.changeThemeButton.text = "Меняй" можно сменить текст на кнопке
+
+            //Анимируем другим способом c помощью ObjectAnimator
+            ObjectAnimator.ofFloat(binding.changeThemeButton, "rotation", 0f, 360f)
+                .setDuration(ANIMATION_TIME_SHORT).start() //вращаем
+//            ObjectAnimator.ofFloat(binding.changeThemeButton, "alpha", 0f).start()// делаем прозрачным
+            ObjectAnimator.ofFloat(binding.changeThemeButton, "translationY", -300f)
+                .setDuration(ANIMATION_TIME_SHORT).start()// смещаем
+
+            // еще один способ анимации
+            binding.changeThemeButton.animate()
+                .alpha(0f)
+                .setDuration(ANIMATION_TIME_SHORT)
         }
 
     }
