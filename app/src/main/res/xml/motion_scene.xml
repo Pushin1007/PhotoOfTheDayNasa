@@ -5,16 +5,30 @@
     <Transition
         app:constraintSetEnd="@layout/fragment_main"
         app:constraintSetStart="@layout/fragment_main_start"
-        app:duration="500">
-        <OnClick app:targetId="@+id/btnWiki" />
-
+        app:duration="1000">
+        <OnSwipe
+            app:dragDirection="dragLeft"
+            app:touchAnchorId="@id/btnWiki"
+            app:touchAnchorSide="right" />
     </Transition>
 
-    <Transition
-        app:constraintSetEnd="@layout/fragment_main_start"
-        app:constraintSetStart="@layout/fragment_main"
-        app:duration="500">
-        <OnClick app:targetId="@+id/imageView" />
-    </Transition>
+<!--    при нажатии на вики окно ввода текста выползает, при нажатии на картинку -скрывается-->
+<!--    <Transition-->
+<!--        app:constraintSetEnd="@layout/fragment_main"-->
+<!--        app:constraintSetStart="@layout/fragment_main_start"-->
+<!--        app:duration="500">-->
+<!--        <OnClick-->
+<!--            app:clickAction="transitionToEnd"-->
+<!--            app:targetId="@+id/btnWiki" />-->
 
+<!--    </Transition>-->
+
+<!--    <Transition-->
+<!--        app:constraintSetEnd="@layout/fragment_main_start"-->
+<!--        app:constraintSetStart="@layout/fragment_main"-->
+<!--        app:duration="500">-->
+<!--        <OnClick-->
+<!--            app:clickAction="transitionToEnd"-->
+<!--            app:targetId="@+id/imageView" />-->
+<!--    </Transition>-->
 </MotionScene>

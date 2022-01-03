@@ -5,3 +5,5 @@ const val ThemeOne = 1
 const val ThemeSecond = 2
 const val KEY_SP = "sp"
 const val KEY_CURRENT_THEME = "current_theme"
+const val ANIMATION_TIME_SHORT = 500L
+const val ANIMATION_TIME_LONG = 2000L

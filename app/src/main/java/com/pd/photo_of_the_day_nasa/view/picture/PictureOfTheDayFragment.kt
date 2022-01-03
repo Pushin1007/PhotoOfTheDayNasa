@@ -3,9 +3,16 @@ package com.pd.photo_of_the_day_nasa.view.picture
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.ChangeImageTransform
+import android.transition.TransitionManager
 
 import android.view.*
+import android.webkit.CookieSyncManager
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -14,6 +21,7 @@ import coil.load
 import com.google.android.material.bottomappbar.BottomAppBar
 
 import androidx.lifecycle.Observer
+import com.pd.photo_of_the_day_nasa.ANIMATION_TIME_LONG
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentMainStartBinding
 
@@ -47,6 +55,8 @@ class PictureOfTheDayFragment : Fragment() {
         _binding = null
     }
 
+    private var isExpand = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData().observe(viewLifecycleOwner, Observer {
@@ -67,11 +77,8 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 else -> viewModel.sendServerRequest()
             }
+
         }
-
-
-
-
 
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -80,6 +87,26 @@ class PictureOfTheDayFragment : Fragment() {
                     Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
             })
         }
+
+        binding.imageView.setOnClickListener { // Увеличиваем картинку по нажатию
+            isExpand = !isExpand
+            val params =
+                binding.imageView.layoutParams as ViewGroup.LayoutParams //Возвращаем параметры контейнера
+
+            val transition = ChangeImageTransform() //специальная трансформация для картинок
+            transition.duration = ANIMATION_TIME_LONG
+            TransitionManager.beginDelayedTransition(binding.main, transition)
+
+            if (isExpand) {
+                binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                params.height = ViewGroup.LayoutParams.MATCH_PARENT // меняем параметры контейнера- работаем наружу
+            } else {
+                binding.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+            binding.imageView.layoutParams = params
+        }
+
 
         setBottomAppBar()
 
