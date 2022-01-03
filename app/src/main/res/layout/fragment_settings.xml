@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,12 +6,32 @@
     android:orientation="vertical"
     tools:context="com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="header_title,header_text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2
+" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3
+" />
 
     <TextView
+        android:id="@+id/header_title"
         style="@style/HeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,15 +39,39 @@
         android:layout_margin="@dimen/margin5"
         android:paddingStart="@dimen/padding_main"
         android:paddingEnd="@dimen/padding_main"
-        android:text="@string/choose_theme" />
+        android:text="@string/choose_theme"
+        app:layout_constraintBottom_toTopOf="@id/header_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin5"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_main"
+        android:paddingEnd="@dimen/padding_main"
+        android:text="@string/choose_theme_text"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_title" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipThemeGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="@dimen/padding_main"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.5"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
@@ -46,8 +90,9 @@
             android:layout_margin="@dimen/padding_main"
             android:text="@string/purple" />
 
+
     </com.google.android.material.chip.ChipGroup>
-</LinearLayout>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

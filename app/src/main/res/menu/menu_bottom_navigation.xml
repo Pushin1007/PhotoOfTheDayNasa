@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_one"
-        android:icon="@drawable/ic_archive"
+        android:icon="@drawable/ic_mars"
         android:title="@string/BottNavOne" />
     <item
         android:id="@+id/navigation_two"

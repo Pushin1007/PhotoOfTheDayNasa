@@ -15,20 +15,25 @@ import com.google.android.material.bottomappbar.BottomAppBar
 
 import androidx.lifecycle.Observer
 import com.pd.photo_of_the_day_nasa.R
-import com.pd.photo_of_the_day_nasa.databinding.FragmentMainBinding
+import com.pd.photo_of_the_day_nasa.databinding.FragmentMainStartBinding
+
 import com.pd.photo_of_the_day_nasa.view.MainActivity
 import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiActivity
 import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class PictureOfTheDayFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    val binding: FragmentMainBinding
+    private var _binding: FragmentMainStartBinding? = null
+    val binding: FragmentMainStartBinding
         get() {
             return _binding!!
         }
@@ -105,29 +110,43 @@ class PictureOfTheDayFragment : Fragment() {
     }
 
 
-    private fun setData(data: PictureOfTheDayState.Success) {// определяем что пришло, картинка или видео
-        val url = data.pictureOfTheDayResponseData.hdurl
-        val header = data.pictureOfTheDayResponseData.title
-        val description = data.pictureOfTheDayResponseData.explanation
-        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
-            val videoUrl = data.pictureOfTheDayResponseData.url
-            videoUrl?.let { showAVideoUrl(it) }
-        } else { // если пришла картинка
-            binding.imageView.load(url)
-            {
-                lifecycle(this@PictureOfTheDayFragment)
-                error(R.drawable.ic_load_error_vector)
-                placeholder(R.drawable.ic_no_photo_vector)
+    private fun setData(data: PictureOfTheDayState.Success) =
+        with(binding) {// определяем что пришло, картинка или видео
+
+            val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
+//        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
+            val header = data.pictureOfTheDayResponseData.title
+            val description = data.pictureOfTheDayResponseData.explanation
+//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+            includeBottomSheet.bottomSheetDescriptionHeader.text = header
+            includeBottomSheet.bottomSheetDescription.text = description
+            if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
+                val videoUrl = data.pictureOfTheDayResponseData.url
+//                youtubePlayerView.visibility = View.VISIBLE
+                imageView.visibility = View.GONE
+
+                videoUrl?.let { showAVideoUrl(it) }
+
+            } else { // если пришла картинка
+                imageView.visibility = View.VISIBLE
+//                youtubePlayerView.visibility = View.GONE
+                imageView.load(url)
+
+                {
+                    lifecycle(this@PictureOfTheDayFragment)
+                    error(R.drawable.ic_load_error_vector)
+                    placeholder(R.drawable.ic_no_photo_vector)
+                }
+
             }
-            binding.includeBottomSheet.bottomSheetDescriptionHeader.text = header
-            binding.includeBottomSheet.bottomSheetDescription.text = description
         }
-    }
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
-            imageView.visibility = View.GONE
+
+//Способ открытия видео через интент в приложении ютуба
             videoOfTheDay.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
             videoOfTheDay.text = "Сегодня у нас без картинки дня, но есть  видео дня! " +
                     "${videoUrl.toString()} \n кликни >ЗДЕСЬ< чтобы открыть в новом окне"
             videoOfTheDay.setOnClickListener {
@@ -136,7 +155,39 @@ class PictureOfTheDayFragment : Fragment() {
                 }
                 startActivity(i)
             }
+
+/*
+//способ открытия через встроенный ютуб
+            lifecycle.addObserver(youtubePlayerView)
+            youtubePlayerView.addYouTubePlayerListener(object :
+                AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+//                    extractId(videoUrl)?.let {
+//                        youTubePlayer.loadVideo(
+//                            it,
+//                            0f
+//                        )
+//                    } // проверка на ноль
+                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
+                }
+            })
+
+ */
         }
+
+    fun extractId(ytUrl: String): String? { // выдергиваем id видео из  полного url
+
+        var vId: String? = null
+        val pattern: Pattern = Pattern.compile(
+            "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+            Pattern.CASE_INSENSITIVE
+        )
+        val matcher: Matcher = pattern.matcher(ytUrl)
+        if (matcher.matches()) {
+            vId = matcher.group(1)
+        }
+        return vId
+    }
 
 
     override fun onCreateView(
@@ -144,7 +195,7 @@ class PictureOfTheDayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -161,7 +212,12 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.photo_library -> startActivity(Intent(requireContext(), ApiActivity::class.java))
+            R.id.photo_library -> startActivity(
+                Intent(
+                    requireContext(),
+                    ApiActivity::class.java
+                )
+            )
             R.id.photo_libraryBND -> startActivity(
                 Intent(
                     requireContext(),
