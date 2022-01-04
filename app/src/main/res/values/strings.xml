@@ -51,6 +51,9 @@
     <string name="change_theme_button">Хочу сменить тему</string>
     <string name="button_info">Узнать изменения</string>
     <string name="choose_theme_info">Прежде чем менять тему, узнайте на что это повилияет...</string>
+    <string name="todo">TODO</string>
+    <string name="data">04/01/2022</string>
+    <string name="buy">BUY</string>
 
 
 </resources>
