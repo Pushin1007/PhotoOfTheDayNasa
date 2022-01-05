@@ -5,7 +5,7 @@ const val TYPE_BUY = 1
 const val TYPE_HEADER = 3
 
 data class Data(
-    val id: Int,
+//    val id: Int,
     val label: String = "Text",
     val description: String? = "Description",
     val type: Int = TYPE_BUY // тип ячейки

@@ -9,11 +9,19 @@ import android.view.ViewGroup
 import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
+import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
 
-class RecyclerFragmentAdapter(private val data: List<Data>) :
+class RecyclerFragmentAdapter(
+    private val data: List<Data>,
+    private val callbackListener: MyCallback
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder { // метод в котором генерируются элементы
 
         return when (viewType) {
             TYPE_TODO -> {
@@ -24,14 +32,14 @@ class RecyclerFragmentAdapter(private val data: List<Data>) :
                 )
                 TodoViewHolder(bindingViewHolder.root)
             }
-//            TYPE_HEADER -> {
-//                val bindingViewHolder = FragmentRecycleItemHeaderBinding.inflate(
-//                    LayoutInflater.from(parent.context),
-//                    parent,
-//                    false
-//                )
-//                HeaderViewHolder(bindingViewHolder.root)
-//            }
+            TYPE_HEADER -> {
+                val bindingViewHolder = FragmentRecycleItemHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                HeaderViewHolder(bindingViewHolder.root)
+            }
             else -> {
                 val bindingViewHolder = FragmentRecycleItemBuyBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -47,100 +55,59 @@ class RecyclerFragmentAdapter(private val data: List<Data>) :
         return data[position].type
     }
 
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        return when (getItemViewType(position)) {
+            TYPE_TODO -> {
+                (holder as TodoViewHolder).bind(data[position])
+            }
+            TYPE_HEADER -> {
+                (holder as HeaderViewHolder).bind(data[position])
+            }
+            else -> {
+                (holder as BuyViewHolder).bind(data[position])
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
+
     inner class TodoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        override fun bind(data: Pair<Data, Boolean>) {
-//            ActivityRecyclerItemEarthBinding.bind(itemView).apply {
-//                someTextTextView.text = data.first.someText
-//                descriptionTextView.text = data.first.someDescription
-//                wikiImageView.setOnClickListener {
-//                    callbackListener.onClick(layoutPosition)
-//                }
-//            }
-//        }
+        fun bind(data: Data) {
+            FragmentRecycleItemTodoBinding.bind(itemView).apply {
+                label.text = data.label
+                descriptionTextView.text = data.description
+                todoImageView.setOnClickListener {
+                    callbackListener.onClick(layoutPosition)
+                }
+            }
+        }
     }
 
     inner class BuyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        override fun bind(data: Pair<Data, Boolean>) {
-//            ActivityRecyclerItemMarsBinding.bind(itemView).apply {
-//                someTextTextView.text = data.first.someText
-//                marsImageView.setOnClickListener {
-//                    callbackListener.onClick(layoutPosition)
-//                }
-//                addItemImageView.setOnClickListener {
-//                    addItemToPosition()
-//                }
-//                removeItemImageView.setOnClickListener {
-//                    removeItem()
-//                }
-//                moveItemDown.setOnClickListener {
-//                    moveDown()
-//                }
-//                moveItemUp.setOnClickListener {
-//                    moveUp()
-//                }
-//                marsDescriptionTextView.visibility = if(data.second) View.VISIBLE else View.GONE
-//                someTextTextView.setOnClickListener {
-//                    toggleDescription()
-//                }
-//
-//                dragHandleImageView.setOnTouchListener{v, event->
-//                    Log.d("mylogs","setOnTouchListener $event")
-//                    if(MotionEventCompat.getActionMasked(event)== MotionEvent.ACTION_DOWN){ // TODO This method will be removed in a future release.
-//                        onStartDragListener.onStartDrag(this@MarsViewHolder)
-//                    }
-//                    false
-//                }
-//            }
-//        }
-//
-//        private fun toggleDescription() {
-//            data[layoutPosition] = data[layoutPosition].run {
-//                first to !second
-//            }
-//            notifyItemChanged(layoutPosition)
-//        }
-//
-//        private fun moveUp() { // FIXME ДЗ убрать ошиюбку java.lang.IndexOutOfBoundsException
-//            data.removeAt(layoutPosition).apply {
-//                data.add(layoutPosition - 1, this)
-//            }
-//            notifyItemMoved(layoutPosition, layoutPosition - 1)
-//        }
-//
-//        private fun moveDown() { // FIXME ДЗ убрать ошиюбку java.lang.IndexOutOfBoundsException
-//            data.removeAt(layoutPosition).apply {
-//                data.add(layoutPosition + 1, this)
-//            }
-//            notifyItemMoved(layoutPosition, layoutPosition + 1)
-//        }
-//
-//        private fun addItemToPosition() {
-//            data.add(layoutPosition, generateItem())
-//            notifyItemInserted(layoutPosition)
-//        }
-//
-//        private fun removeItem() {
-//            data.removeAt(layoutPosition)
-//            notifyItemRemoved(layoutPosition)
-//        }
-//
-//        override fun onItemSelected() {
-//            itemView.setBackgroundColor(Color.CYAN)
-//        }
-//
-//        override fun onItemClear() {
-//            itemView.setBackgroundColor(0)
-//        }
-
-
+        fun bind(data: Data) {
+            FragmentRecycleItemBuyBinding.bind(itemView).apply {
+                label.text = data.label
+                root.setOnClickListener {
+                    callbackListener.onClick(layoutPosition)
+                }
+            }
+        }
     }
+
+    inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(data: Data) {
+            FragmentRecycleItemHeaderBinding.bind(itemView).apply {
+                header.text = data.label
+                header.setOnClickListener {
+                    callbackListener.onClick(layoutPosition)
+                }
+            }
+        }
+    }
+
 
 }
