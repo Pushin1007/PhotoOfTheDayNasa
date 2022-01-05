@@ -16,12 +16,12 @@ class RecyclerFragmentAdapter(
     private val data: List<Data>,
     private val callbackListener: MyCallback
 ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<BaseViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder { // метод в котором генерируются элементы
+    ): BaseViewHolder { // метод в котором генерируются элементы
 
         return when (viewType) {
             TYPE_TODO -> {
@@ -51,23 +51,12 @@ class RecyclerFragmentAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int): Int { // определяем тип
+    override fun getItemViewType(position: Int): Int { // определяем тип ячейки
         return data[position].type
     }
 
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        return when (getItemViewType(position)) {
-            TYPE_TODO -> {
-                (holder as TodoViewHolder).bind(data[position])
-            }
-            TYPE_HEADER -> {
-                (holder as HeaderViewHolder).bind(data[position])
-            }
-            else -> {
-                (holder as BuyViewHolder).bind(data[position])
-            }
-        }
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        holder.bind(data[position])//вызывается абстрактный метод, и вызывается нужная реализация
     }
 
     override fun getItemCount(): Int {
@@ -75,8 +64,8 @@ class RecyclerFragmentAdapter(
     }
 
 
-    inner class TodoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: Data) {
+    inner class TodoViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Data) {
             FragmentRecycleItemTodoBinding.bind(itemView).apply {
                 label.text = data.label
                 descriptionTextView.text = data.description
@@ -87,8 +76,8 @@ class RecyclerFragmentAdapter(
         }
     }
 
-    inner class BuyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: Data) {
+    inner class BuyViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Data) {
             FragmentRecycleItemBuyBinding.bind(itemView).apply {
                 label.text = data.label
                 root.setOnClickListener {
@@ -98,8 +87,8 @@ class RecyclerFragmentAdapter(
         }
     }
 
-    inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: Data) {
+    inner class HeaderViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Data) {
             FragmentRecycleItemHeaderBinding.bind(itemView).apply {
                 header.text = data.label
                 header.setOnClickListener {

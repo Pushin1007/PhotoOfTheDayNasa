@@ -85,6 +85,6 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#000"
-        app:layout_constraintBottom_toBottomOf="@+id/label"
+        app:layout_constraintBottom_toBottomOf="@+id/buyImageView"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
