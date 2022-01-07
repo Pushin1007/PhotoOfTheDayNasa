@@ -15,18 +15,18 @@ import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
 
 class RecyclerFragmentAdapter(
-    private val data: MutableList<Data>,
+    private val data: MutableList<Pair<Data, Boolean>>,
     private val callbackListener: MyCallback
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
-    fun appendItem() {
-        data.add(generateItem())
-        notifyItemInserted(itemCount - 1) // обновляем адаптер точечно
-    }
+//    fun appendItem() {
+//        data.add(generateItem())
+//        notifyItemInserted(itemCount - 1) // обновляем адаптер точечно
+//    }
 
-    private fun generateItem(): Data {
-        return Data(label = "Buy") // TODO написать добавление нового фрагмента
+    private fun generateItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
+        return Data(label = "Buy") to false
     }
 
     override fun onCreateViewHolder(
@@ -63,7 +63,7 @@ class RecyclerFragmentAdapter(
     }
 
     override fun getItemViewType(position: Int): Int { // определяем тип ячейки
-        return data[position].type
+        return data[position].first.type
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -76,10 +76,10 @@ class RecyclerFragmentAdapter(
 
 
     inner class TodoViewHolder(view: View) : BaseViewHolder(view) {
-        override fun bind(data: Data) {
+        override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemTodoBinding.bind(itemView).apply {
-                label.text = data.label
-                descriptionTextView.text = data.description
+                label.text = data.first.label
+                descriptionTextView.text = data.first.description
                 todoImageView.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
                 }
@@ -88,10 +88,10 @@ class RecyclerFragmentAdapter(
     }
 
     inner class BuyViewHolder(view: View) : BaseViewHolder(view) {
-        override fun bind(data: Data) {
+        override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemBuyBinding.bind(itemView).apply {
-                label.text = data.label
-                root.setOnClickListener {
+                label.text = data.first.label
+                root.setOnClickListener { // по клику на вест элемент просто показываем тост
                     callbackListener.onClick(layoutPosition)
                 }
                 addItemImageView.setOnClickListener {// добавляем элемент
@@ -105,6 +105,12 @@ class RecyclerFragmentAdapter(
                 }
                 moveItemUp.setOnClickListener { // двигаем элемент вниз
                     moveUp()
+                }
+                // по клику на ярлык ячейки показываем внутренности
+                buyDescriptionTextView.visibility =
+                    if (data.second) View.VISIBLE else View.GONE // показываем вьюху
+                label.setOnClickListener {
+                    toggleDescription()
                 }
 
             }
@@ -128,22 +134,30 @@ class RecyclerFragmentAdapter(
                 notifyItemMoved(layoutPosition, layoutPosition - 1)
             }
 
+
         }
 
         private fun moveDown() { // функция движения вниз
-            if (layoutPosition < getItemCount()-1) {
+            if (layoutPosition < getItemCount() - 1) {
                 data.removeAt(layoutPosition).apply {
                     data.add(layoutPosition + 1, this)
                 }
                 notifyItemMoved(layoutPosition, layoutPosition + 1)
             }
         }
+
+        private fun toggleDescription() { // показываем внутренности ячейки
+            data[layoutPosition] = data[layoutPosition].run {
+                first to !second
+            }
+            notifyItemChanged(layoutPosition) //обновляем точесно элемент
+        }
     }
 
     inner class HeaderViewHolder(view: View) : BaseViewHolder(view) {
-        override fun bind(data: Data) {
+        override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemHeaderBinding.bind(itemView).apply {
-                header.text = data.label
+                header.text = data.first.label
                 header.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
                 }

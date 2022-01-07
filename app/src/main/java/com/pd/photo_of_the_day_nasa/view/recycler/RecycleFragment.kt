@@ -13,7 +13,6 @@ import com.pd.photo_of_the_day_nasa.TYPE_TODO
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleBinding
 
 
-
 class RecycleFragment : Fragment() {
 
 
@@ -42,22 +41,25 @@ class RecycleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = arrayListOf(
-            Data("TODO", "04.01.2022", type = TYPE_TODO),
-            Data("TODO", "05.01.2022", type = TYPE_TODO),
-            Data("TODO", "05.01.2022", type = TYPE_TODO),
-            Data("BUY", "", type = TYPE_BUY),
-            Data("TODO", "05.01.2022", type = TYPE_TODO),
-            Data("TODO", "05.01.2022", type = TYPE_TODO),
-            Data("BUY", "", type = TYPE_BUY)
+            Data("TODO", "04.01.2022", type = TYPE_TODO) to false,
+            Data("TODO", "05.01.2022", type = TYPE_TODO) to false,
+            Data("TODO", "05.01.2022", type = TYPE_TODO) to false,
+            Data("BUY", "", type = TYPE_BUY) to false,
+            Data("TODO", "05.01.2022", type = TYPE_TODO) to false,
+            Data("TODO", "05.01.2022", type = TYPE_TODO) to false,
+            Data("BUY", "", type = TYPE_BUY) to false
         )
 // добавляем заголовок
-        data.add(0, Data("Дела и покупки", type = TYPE_HEADER))
+        data.add(0, Data("Дела и покупки", type = TYPE_HEADER) to false)
 
         val adapter = RecyclerFragmentAdapter(data,
             object : MyCallback {
                 override fun onClick(position: Int) {
-                    Toast.makeText(context,"РАБОТАЕТ ${data[position].label} ${data[position].description}",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "РАБОТАЕТ ${data[position].first.label} ${data[position].first.description}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             })

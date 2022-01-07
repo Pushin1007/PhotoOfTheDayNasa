@@ -5,6 +5,5 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseViewHolder(view: View) :
     RecyclerView.ViewHolder(view) { //базовый предок для холдеров
-    //    abstract fun bind(data: Pair<Data, Boolean>)
-    abstract fun bind(data: Data)
+    abstract fun bind(data: Pair<Data, Boolean>) // переменная типа  Pair
 }
