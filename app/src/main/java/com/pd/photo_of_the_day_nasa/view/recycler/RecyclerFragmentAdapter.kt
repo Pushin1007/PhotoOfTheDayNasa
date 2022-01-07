@@ -100,6 +100,13 @@ class RecyclerFragmentAdapter(
                 removeItemImageView.setOnClickListener { // удаляем элемент
                     removeItem()
                 }
+                moveItemDown.setOnClickListener { // двигаем элемент вверх
+                    moveDown()
+                }
+                moveItemUp.setOnClickListener { // двигаем элемент вниз
+                    moveUp()
+                }
+
             }
         }
 
@@ -111,6 +118,25 @@ class RecyclerFragmentAdapter(
         private fun removeItem() { // удаление элемента Buy
             data.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
+        }
+
+        private fun moveUp() { // функция движения вверх
+            if (layoutPosition > 1) {
+                data.removeAt(layoutPosition).apply {
+                    data.add(layoutPosition - 1, this)
+                }
+                notifyItemMoved(layoutPosition, layoutPosition - 1)
+            }
+
+        }
+
+        private fun moveDown() { // функция движения вниз
+            if (layoutPosition < getItemCount()-1) {
+                data.removeAt(layoutPosition).apply {
+                    data.add(layoutPosition + 1, this)
+                }
+                notifyItemMoved(layoutPosition, layoutPosition + 1)
+            }
         }
     }
 
