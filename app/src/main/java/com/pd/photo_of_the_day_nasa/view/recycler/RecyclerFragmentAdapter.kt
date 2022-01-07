@@ -8,15 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.pd.photo_of_the_day_nasa.TYPE_HEADER
+import com.pd.photo_of_the_day_nasa.TYPE_TODO
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
 
 class RecyclerFragmentAdapter(
-    private val data: List<Data>,
+    private val data: MutableList<Data>,
     private val callbackListener: MyCallback
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
+
+    fun appendItem() {
+        data.add(generateItem())
+        notifyItemInserted(itemCount - 1) // обновляем адаптер точечно
+    }
+
+    private fun generateItem(): Data {
+        return Data(label = "Buy") // TODO написать добавление нового фрагмента
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -83,7 +94,23 @@ class RecyclerFragmentAdapter(
                 root.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
                 }
+                addItemImageView.setOnClickListener {// добавляем элемент
+                    addItemToPosition()
+                }
+                removeItemImageView.setOnClickListener { // удаляем элемент
+                    removeItem()
+                }
             }
+        }
+
+        private fun addItemToPosition() { //добавление нового элемента Buy
+            data.add(layoutPosition, generateItem())
+            notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
+        }
+
+        private fun removeItem() { // удаление элемента Buy
+            data.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
         }
     }
 

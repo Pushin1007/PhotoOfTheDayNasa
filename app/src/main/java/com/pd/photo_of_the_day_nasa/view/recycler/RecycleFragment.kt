@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.pd.photo_of_the_day_nasa.TYPE_BUY
+import com.pd.photo_of_the_day_nasa.TYPE_HEADER
+import com.pd.photo_of_the_day_nasa.TYPE_TODO
 
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleBinding
 
@@ -39,18 +42,18 @@ class RecycleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = arrayListOf(
-            Data("TODO", "", type = TYPE_TODO),
-            Data("TODO", "", type = TYPE_TODO),
-            Data("TODO", "", type = TYPE_TODO),
+            Data("TODO", "04.01.2022", type = TYPE_TODO),
+            Data("TODO", "05.01.2022", type = TYPE_TODO),
+            Data("TODO", "05.01.2022", type = TYPE_TODO),
             Data("BUY", "", type = TYPE_BUY),
-            Data("TODO", "", type = TYPE_TODO),
-            Data("TODO", "", type = TYPE_TODO),
+            Data("TODO", "05.01.2022", type = TYPE_TODO),
+            Data("TODO", "05.01.2022", type = TYPE_TODO),
             Data("BUY", "", type = TYPE_BUY)
         )
 // добавляем заголовок
         data.add(0, Data("Дела и покупки", type = TYPE_HEADER))
 
-        binding.recyclerView.adapter = RecyclerFragmentAdapter(data,
+        val adapter = RecyclerFragmentAdapter(data,
             object : MyCallback {
                 override fun onClick(position: Int) {
                     Toast.makeText(context,"РАБОТАЕТ ${data[position].label} ${data[position].description}",
@@ -58,6 +61,7 @@ class RecycleFragment : Fragment() {
                 }
 
             })
+        binding.recyclerView.adapter = adapter
 
     }
 

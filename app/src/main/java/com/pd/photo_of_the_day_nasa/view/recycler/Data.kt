@@ -1,12 +1,11 @@
 package com.pd.photo_of_the_day_nasa.view.recycler
 
-const val TYPE_TODO = 0
-const val TYPE_BUY = 1
-const val TYPE_HEADER = 3
+import com.pd.photo_of_the_day_nasa.TYPE_BUY
+
 
 data class Data(
 //    val id: Int,
-    val label: String = "Text",
+    val label: String = "Buy",
     val description: String? = "Description",
     val type: Int = TYPE_BUY // тип ячейки
 )
