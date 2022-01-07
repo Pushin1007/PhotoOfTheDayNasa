@@ -18,7 +18,7 @@ class RecyclerFragmentAdapter(
     private val data: MutableList<Pair<Data, Boolean>>,
     private val callbackListener: MyCallback
 ) :
-    RecyclerView.Adapter<BaseViewHolder>() {
+    RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 
 //    fun appendItem() {
 //        data.add(generateItem())
@@ -87,7 +87,7 @@ class RecyclerFragmentAdapter(
         }
     }
 
-    inner class BuyViewHolder(view: View) : BaseViewHolder(view) {
+    inner class BuyViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemBuyBinding.bind(itemView).apply {
                 label.text = data.first.label
@@ -152,6 +152,14 @@ class RecyclerFragmentAdapter(
             }
             notifyItemChanged(layoutPosition) //обновляем точесно элемент
         }
+
+        override fun onItemSelected() { // реализуем метод выделения
+            itemView.setBackgroundColor(Color.GRAY)
+        }
+
+        override fun onItemClear() { // реализуем метод снятия выделения
+            itemView.setBackgroundColor(0)
+        }
     }
 
     inner class HeaderViewHolder(view: View) : BaseViewHolder(view) {
@@ -163,6 +171,18 @@ class RecyclerFragmentAdapter(
                 }
             }
         }
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) { // реализуем метод перемещения
+        data.removeAt(fromPosition).apply {
+            data.add(toPosition, this)
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemDismiss(position: Int) { // реализуем метод  удаления элементы
+        data.removeAt(position)
+        notifyItemRemoved(position)
     }
 
 

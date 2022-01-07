@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.pd.photo_of_the_day_nasa.TYPE_BUY
 import com.pd.photo_of_the_day_nasa.TYPE_HEADER
 import com.pd.photo_of_the_day_nasa.TYPE_TODO
@@ -64,7 +65,7 @@ class RecycleFragment : Fragment() {
 
             })
         binding.recyclerView.adapter = adapter
-
+        ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerView) //запускаем код
     }
 
 
