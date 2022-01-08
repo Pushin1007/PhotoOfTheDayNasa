@@ -56,6 +56,9 @@
     <string name="buy">BUY</string>
     <string name="ToDoList">TODO List</string>
     <string name="list">List</string>
+    <string name="typeItem">Тип заметки</string>
+    <string name="value">Ntrcn</string>
+    <string name="description_buy">здесь описание списка покупок и всего другого</string>
 
 
 </resources>

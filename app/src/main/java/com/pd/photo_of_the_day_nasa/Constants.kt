@@ -10,3 +10,5 @@ const val ANIMATION_TIME_LONG = 2000L
 const val TYPE_TODO = 0
 const val TYPE_BUY = 1
 const val TYPE_HEADER = 3
+const val KEY_BUY_RESULT_ADD = "KEY_BUY_RESULT_ADD"
+const val ARG_BUY_ADD = "ARG_BUY_ADD"

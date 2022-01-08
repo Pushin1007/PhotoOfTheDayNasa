@@ -4,15 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/todoImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_todo" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
@@ -23,20 +14,51 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/todoImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/todoImageView" />
+        app:layout_constraintTop_toTopOf="@+id/todoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/todoImageView" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/todoImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/addItemImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_todo" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/descriptionTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/data"
         android:textColor="#000"
-        android:gravity="center"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/todoImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/todoImageView"
         app:layout_constraintTop_toTopOf="@+id/todoImageView" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/addItemImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_plus_fab" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/removeItemImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addItemImageView"
+        app:srcCompat="@drawable/ic_archive" />
 
     <View
         android:layout_width="match_parent"

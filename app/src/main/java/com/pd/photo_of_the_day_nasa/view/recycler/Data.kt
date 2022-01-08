@@ -1,25 +1,40 @@
 package com.pd.photo_of_the_day_nasa.view.recycler
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.pd.photo_of_the_day_nasa.TYPE_BUY
 
 
 data class Data(
-//    val id: Int,
-    val label: String = "Buy",
+    val label: String? = "Buy",
     val description: String? = "Description",
     val type: Int = TYPE_BUY // тип ячейки
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readInt()
+    ) {
+    }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(label)
+        parcel.writeString(description)
+        parcel.writeInt(type)
+    }
 
-data class Change<out T>(
-    val oldData: T,
-    val newData: T
-)
+    override fun describeContents(): Int {
+        return 0
+    }
 
-fun <T> createCombinedPayload(payloads: List<Change<T>>): Change<T> {
-    assert(payloads.isNotEmpty())
-    val firstChange = payloads.first()
-    val lastChange = payloads.last()
+    companion object CREATOR : Parcelable.Creator<Data> {
+        override fun createFromParcel(parcel: Parcel): Data {
+            return Data(parcel)
+        }
 
-    return Change(firstChange.oldData, lastChange.newData)
+        override fun newArray(size: Int): Array<Data?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
+

@@ -1,18 +1,19 @@
 package com.pd.photo_of_the_day_nasa.view.recycler
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pd.photo_of_the_day_nasa.TYPE_HEADER
 import com.pd.photo_of_the_day_nasa.TYPE_TODO
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 class RecyclerFragmentAdapter(
     private val data: MutableList<Pair<Data, Boolean>>,
@@ -20,13 +21,18 @@ class RecyclerFragmentAdapter(
 ) :
     RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 
-//    fun appendItem() {
-//        data.add(generateItem())
-//        notifyItemInserted(itemCount - 1) // обновляем адаптер точечно
-//    }
 
-    private fun generateItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
+    private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
         return Data(label = "Buy") to false
+
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun generateTodoItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
+        val sdf = SimpleDateFormat("dd/M/yyyy") // делаем формат даты
+        val currentDate = sdf.format(Date()) //добавляем сегодняшнюю дату
+        return Data(label = "TODO", description = currentDate, type = TYPE_TODO) to false
+
     }
 
     override fun onCreateViewHolder(
@@ -75,7 +81,7 @@ class RecyclerFragmentAdapter(
     }
 
 
-    inner class TodoViewHolder(view: View) : BaseViewHolder(view) {
+    inner class TodoViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemTodoBinding.bind(itemView).apply {
                 label.text = data.first.label
@@ -83,7 +89,32 @@ class RecyclerFragmentAdapter(
                 todoImageView.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
                 }
+                addItemImageView.setOnClickListener {// добавляем элемент
+                    addItemToPosition()
+                }
+                removeItemImageView.setOnClickListener { // удаляем элемент
+                    removeItem()
+                }
+
             }
+        }
+
+        private fun addItemToPosition() { //добавление нового элемента Buy
+            data.add(layoutPosition, generateTodoItem())
+            notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
+        }
+
+        private fun removeItem() { // удаление элемента Buy
+            data.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
+        }
+
+        override fun onItemSelected() { // реализуем метод выделения
+            itemView.setBackgroundColor(Color.GRAY)
+        }
+
+        override fun onItemClear() { // реализуем метод снятия выделения
+            itemView.setBackgroundColor(0)
         }
     }
 
@@ -117,7 +148,7 @@ class RecyclerFragmentAdapter(
         }
 
         private fun addItemToPosition() { //добавление нового элемента Buy
-            data.add(layoutPosition, generateItem())
+            data.add(layoutPosition, generateBuyItem())
             notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
         }
 
