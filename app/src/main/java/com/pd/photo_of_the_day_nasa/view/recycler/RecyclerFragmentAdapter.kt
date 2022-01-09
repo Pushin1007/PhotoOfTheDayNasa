@@ -25,8 +25,6 @@ class RecyclerFragmentAdapter(
     RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 
 
-
-
     @SuppressLint("SimpleDateFormat")
     private fun generateTodoItem(): Pair<Data, Boolean> {
         val sdf = SimpleDateFormat("dd/M/yyyy") // делаем формат даты
@@ -122,6 +120,7 @@ class RecyclerFragmentAdapter(
         override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemBuyBinding.bind(itemView).apply {
                 label.text = data.first.label
+                buyDescriptionTextView.text = data.first.description
 //                root.setOnClickListener { // по клику на вест элемент просто показываем тост
 //                    callbackListener.onClick(layoutPosition)
 //                }
@@ -152,9 +151,12 @@ class RecyclerFragmentAdapter(
             data.add(layoutPosition, generateBuyItem())
             notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
         }
+
         private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
             return Data(label = "Buy") to false
+            
         }
+
         private fun removeItem() { // удаление элемента Buy
             data.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
@@ -220,9 +222,9 @@ class RecyclerFragmentAdapter(
         override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemHeaderBinding.bind(itemView).apply {
                 header.text = data.first.label
-                header.setOnClickListener {
-                    callbackListener.onClick(layoutPosition)
-                }
+//                header.setOnClickListener {
+//                    callbackListener.onClick(layoutPosition)
+//                }
             }
         }
     }

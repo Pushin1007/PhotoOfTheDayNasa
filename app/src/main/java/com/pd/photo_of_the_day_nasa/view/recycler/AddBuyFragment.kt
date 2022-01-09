@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 
 import androidx.fragment.app.Fragment
 import com.pd.photo_of_the_day_nasa.*
@@ -47,9 +48,12 @@ class AddBuyFragment : Fragment() {
             parentFragmentManager
                 .setFragmentResult(KEY_BUY_RESULT_ADD, bundle)
             parentFragmentManager.popBackStack()
+            parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to bundle))
+
 
         }
     }
+
     companion object {
         fun newInstance() = AddBuyFragment()
     }

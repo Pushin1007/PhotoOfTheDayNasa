@@ -46,7 +46,7 @@ class RecycleFragment : Fragment() {
             Data("TODO", "04/01/2022", TYPE_TODO) to false,
             Data("TODO", "05/01/2022", TYPE_TODO) to false,
             Data("TODO", "05/01/2022", TYPE_TODO) to false,
-            Data("BUY", "", TYPE_BUY) to false,
+            Data("BUY", "dddddddddd", TYPE_BUY) to false,
             Data("TODO", "05/01/2022", TYPE_TODO) to false,
             Data("TODO", "05/01/2022", TYPE_TODO) to false,
             Data("BUY", "", TYPE_BUY) to false
@@ -66,25 +66,32 @@ class RecycleFragment : Fragment() {
                         .beginTransaction().add(R.id.container, AddBuyFragment.newInstance())
                         .addToBackStack("").commit()
 
-                    childFragmentManager.setFragmentResultListener(
+                    parentFragmentManager.setFragmentResultListener(
                         KEY_BUY_RESULT_ADD,
                         viewLifecycleOwner, { requestKey, result ->
                             val newItemBuy = result.getParcelable<Data>(ARG_BUY_ADD)
-                            data.add(Data(newItemBuy?.label, newItemBuy?.description) to false)
+
+                            data.add(
+                                Data(
+                                    newItemBuy?.label,
+                                    newItemBuy?.description,
+                                    TYPE_BUY
+                                ) to false
+                            )
                         })
+
                 }
 
             })
+
+
+
+
         binding.recyclerView.adapter = adapter
+
         ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerView) //запускаем код
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean { // пробую вызвать фрагмент добавления списка
-        if (item.getItemId() == R.id.addItemImageView)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, AddBuyFragment.newInstance()).addToBackStack("").commit()
-        return true
-    }
 
     companion object {
         @JvmStatic
