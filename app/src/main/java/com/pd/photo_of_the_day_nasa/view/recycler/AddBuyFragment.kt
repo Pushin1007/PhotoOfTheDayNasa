@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.pd.photo_of_the_day_nasa.*
 
 import com.pd.photo_of_the_day_nasa.databinding.FragmentAddBuyBinding
+import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 
 
 class AddBuyFragment : Fragment() {
@@ -48,5 +49,8 @@ class AddBuyFragment : Fragment() {
             parentFragmentManager.popBackStack()
 
         }
+    }
+    companion object {
+        fun newInstance() = AddBuyFragment()
     }
 }

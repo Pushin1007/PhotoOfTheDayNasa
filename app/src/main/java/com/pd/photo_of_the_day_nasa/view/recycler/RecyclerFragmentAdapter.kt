@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.TYPE_HEADER
 import com.pd.photo_of_the_day_nasa.TYPE_TODO
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
@@ -24,7 +25,8 @@ class RecyclerFragmentAdapter(
 
     private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
         return Data(label = "Buy") to false
-
+//что здесь??.beginTransaction()
+//            .replace(R.id.container, AddBuyFragment.newInstance()).addToBackStack("").commit()
     }
 
     @SuppressLint("SimpleDateFormat")
