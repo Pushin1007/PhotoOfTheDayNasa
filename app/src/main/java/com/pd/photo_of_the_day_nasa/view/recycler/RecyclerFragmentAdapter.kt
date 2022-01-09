@@ -1,6 +1,7 @@
 package com.pd.photo_of_the_day_nasa.view.recycler
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.TYPE_HEADER
 import com.pd.photo_of_the_day_nasa.TYPE_TODO
+import com.pd.photo_of_the_day_nasa.databinding.FragmentAddBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
@@ -23,14 +25,10 @@ class RecyclerFragmentAdapter(
     RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 
 
-    private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
-        return Data(label = "Buy") to false
-//что здесь??.beginTransaction()
-//            .replace(R.id.container, AddBuyFragment.newInstance()).addToBackStack("").commit()
-    }
+
 
     @SuppressLint("SimpleDateFormat")
-    private fun generateTodoItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
+    private fun generateTodoItem(): Pair<Data, Boolean> {
         val sdf = SimpleDateFormat("dd/M/yyyy") // делаем формат даты
         val currentDate = sdf.format(Date()) //добавляем сегодняшнюю дату
         return Data(label = "TODO", description = currentDate, type = TYPE_TODO) to false
@@ -124,11 +122,12 @@ class RecyclerFragmentAdapter(
         override fun bind(data: Pair<Data, Boolean>) {
             FragmentRecycleItemBuyBinding.bind(itemView).apply {
                 label.text = data.first.label
-                root.setOnClickListener { // по клику на вест элемент просто показываем тост
-                    callbackListener.onClick(layoutPosition)
-                }
+//                root.setOnClickListener { // по клику на вест элемент просто показываем тост
+//                    callbackListener.onClick(layoutPosition)
+//                }
                 addItemImageView.setOnClickListener {// добавляем элемент
-                    addItemToPosition()
+//                    addItemToPosition()
+                    callbackListener.onClick(layoutPosition) // вызываем фрагмент добавления ячейки BUY
                 }
                 removeItemImageView.setOnClickListener { // удаляем элемент
                     removeItem()
@@ -153,29 +152,51 @@ class RecyclerFragmentAdapter(
             data.add(layoutPosition, generateBuyItem())
             notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
         }
-
+        private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
+            return Data(label = "Buy") to false
+        }
         private fun removeItem() { // удаление элемента Buy
             data.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
 
         private fun moveUp() { // функция движения вверх
+            /*
+            // мой способ записи
             if (layoutPosition > 1) {
                 data.removeAt(layoutPosition).apply {
                     data.add(layoutPosition - 1, this)
                 }
                 notifyItemMoved(layoutPosition, layoutPosition - 1)
             }
-
+            */
+            // способ записи Преподавателя. Модный современный способ в Котлине
+            layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
+                data.removeAt(currentPosition).apply {
+                    data.add(currentPosition - 1, this)
+                }
+                notifyItemMoved(currentPosition, currentPosition - 1)
+            }
 
         }
 
         private fun moveDown() { // функция движения вниз
+            /*
+// мой способ записи
             if (layoutPosition < getItemCount() - 1) {
                 data.removeAt(layoutPosition).apply {
                     data.add(layoutPosition + 1, this)
                 }
                 notifyItemMoved(layoutPosition, layoutPosition + 1)
+            }
+}
+*/
+            // способ записи Преподавателя. Модный современный способ в Котлине
+            layoutPosition.takeIf { it < getItemCount() - 1 }?.also { currentPosition ->
+                data.removeAt(currentPosition).apply {
+                    data.add(currentPosition + 1, this)
+                }
+                notifyItemMoved(currentPosition, currentPosition + 1)
             }
         }
 
@@ -207,10 +228,15 @@ class RecyclerFragmentAdapter(
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) { // реализуем метод перемещения
-        data.removeAt(fromPosition).apply {
-            data.add(toPosition, this)
+        if (toPosition == 0) { //Чтобы при перемещении не вылазить за  Header
+            return Unit
+        } else {
+            data.removeAt(fromPosition).apply {
+
+                data.add(toPosition, this)
+            }
+            notifyItemMoved(fromPosition, toPosition)
         }
-        notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun onItemDismiss(position: Int) { // реализуем метод  удаления элементы

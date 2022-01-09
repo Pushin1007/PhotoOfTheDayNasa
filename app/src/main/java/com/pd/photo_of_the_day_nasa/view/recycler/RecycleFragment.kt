@@ -2,16 +2,17 @@ package com.pd.photo_of_the_day_nasa.view.recycler
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.pd.photo_of_the_day_nasa.TYPE_BUY
-import com.pd.photo_of_the_day_nasa.TYPE_HEADER
-import com.pd.photo_of_the_day_nasa.TYPE_TODO
+import com.pd.photo_of_the_day_nasa.*
 
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleBinding
+import com.pd.photo_of_the_day_nasa.view.MainActivity
 
 
 class RecycleFragment : Fragment() {
@@ -56,11 +57,21 @@ class RecycleFragment : Fragment() {
         val adapter = RecyclerFragmentAdapter(data,
             object : MyCallback {
                 override fun onClick(position: Int) {
-                    Toast.makeText(
-                        context,
-                        "РАБОТАЕТ ${data[position].first.label} ${data[position].first.description}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "РАБОТАЕТ ${data[position].first.label} ${data[position].first.description}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    (requireActivity() as MainActivity).supportFragmentManager
+                        .beginTransaction().add(R.id.container, AddBuyFragment.newInstance())
+                        .addToBackStack("").commit()
+
+                    childFragmentManager.setFragmentResultListener(
+                        KEY_BUY_RESULT_ADD,
+                        viewLifecycleOwner, { requestKey, result ->
+                            val newItemBuy = result.getParcelable<Data>(ARG_BUY_ADD)
+                            data.add(Data(newItemBuy?.label, newItemBuy?.description) to false)
+                        })
                 }
 
             })
@@ -68,6 +79,12 @@ class RecycleFragment : Fragment() {
         ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerView) //запускаем код
     }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean { // пробую вызвать фрагмент добавления списка
+        if (item.getItemId() == R.id.addItemImageView)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, AddBuyFragment.newInstance()).addToBackStack("").commit()
+        return true
+    }
 
     companion object {
         @JvmStatic

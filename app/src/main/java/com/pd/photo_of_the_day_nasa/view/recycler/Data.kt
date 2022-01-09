@@ -8,11 +8,13 @@ import com.pd.photo_of_the_day_nasa.TYPE_BUY
 data class Data(
     val label: String? = "Buy",
     val description: String? = "Description",
-    val type: Int = TYPE_BUY // тип ячейки
+    val type: Int = TYPE_BUY, // тип ячейки
+    var weight: Int=0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
+        parcel.readInt(),
         parcel.readInt()
     ) {
     }
@@ -21,6 +23,7 @@ data class Data(
         parcel.writeString(label)
         parcel.writeString(description)
         parcel.writeInt(type)
+        parcel.writeInt(weight)
     }
 
     override fun describeContents(): Int {
