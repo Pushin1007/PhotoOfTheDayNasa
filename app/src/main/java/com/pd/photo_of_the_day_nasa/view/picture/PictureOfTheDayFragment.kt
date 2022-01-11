@@ -1,9 +1,14 @@
 package com.pd.photo_of_the_day_nasa.view.picture
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.transition.ChangeBounds
 import android.transition.ChangeImageTransform
 import android.transition.TransitionManager
@@ -147,17 +152,31 @@ class PictureOfTheDayFragment : Fragment() {
             val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
 //        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
             val header = data.pictureOfTheDayResponseData.title
-            val description = data.pictureOfTheDayResponseData.explanation
-//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
+
             includeBottomSheet.bottomSheetDescriptionHeader.text = header
+
+
             includeBottomSheet.bottomSheetDescriptionHeader.typeface =
                 Typeface.createFromAsset(
                     requireContext().assets,
-                    "Robus-BWqOd.otf"
+                    "script_regular.ttf"
                 )// применяем шрифт в коде
 
+//Description
+            data.pictureOfTheDayResponseData.explanation?.let{
+                includeBottomSheet.bottomSheetDescription.text=it
+ val spannable = SpannableStringBuilder(it)
+                spannable.setSpan(ForegroundColorSpan(Color.RED),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                spannable.setSpan(ForegroundColorSpan(Color.RED),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                includeBottomSheet.bottomSheetDescription.text=spannable
+            }
 
-            includeBottomSheet.bottomSheetDescription.text = description
+
+
+
+
+
+            //if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
             if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
                 val videoUrl = data.pictureOfTheDayResponseData.url
 //                youtubePlayerView.visibility = View.VISIBLE
@@ -200,13 +219,13 @@ class PictureOfTheDayFragment : Fragment() {
             youtubePlayerView.addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-//                    extractId(videoUrl)?.let {
-//                        youTubePlayer.loadVideo(
-//                            it,
-//                            0f
-//                        )
-//                    } // проверка на ноль
-                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
+                    extractId(videoUrl)?.let {
+                        youTubePlayer.loadVideo(
+                            it,
+                            0f
+                        )
+                    } // проверка на ноль
+     //                                   youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
                 }
             })
 
