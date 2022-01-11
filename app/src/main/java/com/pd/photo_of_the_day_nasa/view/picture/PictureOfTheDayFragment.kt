@@ -1,6 +1,7 @@
 package com.pd.photo_of_the_day_nasa.view.picture
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.transition.ChangeBounds
@@ -149,6 +150,13 @@ class PictureOfTheDayFragment : Fragment() {
             val description = data.pictureOfTheDayResponseData.explanation
 //        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
             includeBottomSheet.bottomSheetDescriptionHeader.text = header
+            includeBottomSheet.bottomSheetDescriptionHeader.typeface =
+                Typeface.createFromAsset(
+                    requireContext().assets,
+                    "Robus-BWqOd.otf"
+                )// применяем шрифт в коде
+
+
             includeBottomSheet.bottomSheetDescription.text = description
             if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
                 val videoUrl = data.pictureOfTheDayResponseData.url
