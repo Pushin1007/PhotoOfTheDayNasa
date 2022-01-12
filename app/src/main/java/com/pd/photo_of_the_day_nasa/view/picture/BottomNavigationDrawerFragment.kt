@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.BottomNavigationLayoutBinding
 import com.pd.photo_of_the_day_nasa.view.coordinator.CoordinatorFragment
+import com.pd.photo_of_the_day_nasa.view.recycler.RecycleFragment
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -35,7 +36,8 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                         .replace(R.id.container, CoordinatorFragment.newInstance()).addToBackStack("").commit()
                 }
                 R.id.navigation_two -> {
-                    Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, RecycleFragment.newInstance()).addToBackStack("").commit()
                 }
                 R.id.navigation_three -> {
                     Toast.makeText(context, "3", Toast.LENGTH_SHORT).show()
