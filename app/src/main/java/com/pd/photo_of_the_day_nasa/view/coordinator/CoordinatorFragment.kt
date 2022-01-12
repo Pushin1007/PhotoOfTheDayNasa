@@ -40,9 +40,14 @@ class CoordinatorFragment : Fragment() {
         // Behavior кнопки подключен через  Layout
 
         (binding.nested.layoutParams as CoordinatorLayout.LayoutParams).behavior = nestedBehavior
-        binding.myButton.setOnClickListener(){
+        binding.myButton.setOnClickListener() {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PictureOfTheDayFragment.newInstance()).commit()
+                .setCustomAnimations(// делаем анимацию между фрегментами
+                    R.animator.enter_from_right,
+                    R.animator.exit_to_left,
+                    R.animator.enter_from_left,
+                    R.animator.exit_to_right
+                ).replace(R.id.container, PictureOfTheDayFragment.newInstance()).commit()
         }
     }// получаем параметры Nested, извлекаем параметры,явно приводим и вызываем behavior
 
