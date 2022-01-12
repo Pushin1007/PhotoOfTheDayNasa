@@ -1,26 +1,23 @@
 package com.pd.photo_of_the_day_nasa.view.picture
 
 import android.content.Intent
+import android.graphics.BlurMaskFilter
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import android.transition.ChangeBounds
+import android.text.style.*
 import android.transition.ChangeImageTransform
 import android.transition.TransitionManager
 
 import android.view.*
-import android.webkit.CookieSyncManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -37,8 +34,6 @@ import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Matcher
@@ -151,29 +146,59 @@ class PictureOfTheDayFragment : Fragment() {
 
             val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
 //        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
-            val header = data.pictureOfTheDayResponseData.title
-
-            includeBottomSheet.bottomSheetDescriptionHeader.text = header
-
-
             includeBottomSheet.bottomSheetDescriptionHeader.typeface =
                 Typeface.createFromAsset(
                     requireContext().assets,
                     "script_regular.ttf"
                 )// применяем шрифт в коде
+            data.pictureOfTheDayResponseData.title?.let { //header
+                includeBottomSheet.bottomSheetDescriptionHeader.text = it
+                val spannableHeader = SpannableStringBuilder(it)
+                spannableHeader.setSpan(//подчеркивание
+                    UnderlineSpan(),
+                    0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
 
-//Description
-            data.pictureOfTheDayResponseData.explanation?.let{
-                includeBottomSheet.bottomSheetDescription.text=it
- val spannable = SpannableStringBuilder(it)
-                spannable.setSpan(ForegroundColorSpan(Color.RED),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                spannable.setSpan(ForegroundColorSpan(Color.RED),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                includeBottomSheet.bottomSheetDescription.text=spannable
+                val blurMaskFilter = BlurMaskFilter(5f, BlurMaskFilter.Blur.SOLID) // размытие
+                spannableHeader.setSpan(
+                    MaskFilterSpan(blurMaskFilter),
+                    0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                spannableHeader.setSpan(// выделение абзаца. Выглядит так себе. Для тренировки
+                    QuoteSpan(Color.RED), 0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                includeBottomSheet.bottomSheetDescriptionHeader.text = spannableHeader
             }
 
 
+//Description
+            data.pictureOfTheDayResponseData.explanation?.let {
+                includeBottomSheet.bottomSheetDescription.text = it
+                val spannableDescription = SpannableStringBuilder(it)
+                spannableDescription.setSpan(//делаем первую букву красной Как в книжке
+                    ForegroundColorSpan(Color.RED),//цвет
+                    0,
+                    1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                spannableDescription.setSpan( //делаем первую букву большой
+                    RelativeSizeSpan(2f), // коэффициент умножения
+                    0,
+                    1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
 
 
+
+                includeBottomSheet.bottomSheetDescription.text = spannableDescription
+            }
 
 
             //if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
