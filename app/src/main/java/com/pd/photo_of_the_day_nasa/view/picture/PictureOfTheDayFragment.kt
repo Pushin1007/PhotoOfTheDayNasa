@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.*
 import android.transition.ChangeImageTransform
@@ -14,6 +15,7 @@ import android.transition.TransitionManager
 
 import android.view.*
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 
 import androidx.core.content.ContextCompat
@@ -146,13 +148,16 @@ class PictureOfTheDayFragment : Fragment() {
 
             val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
 //        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
+
+            //Header
             includeBottomSheet.bottomSheetDescriptionHeader.typeface =
                 Typeface.createFromAsset(
                     requireContext().assets,
                     "script_regular.ttf"
                 )// применяем шрифт в коде
+
             data.pictureOfTheDayResponseData.title?.let { //header
-                includeBottomSheet.bottomSheetDescriptionHeader.text = it
+
                 val spannableHeader = SpannableStringBuilder(it)
                 spannableHeader.setSpan(//подчеркивание
                     UnderlineSpan(),
@@ -180,8 +185,14 @@ class PictureOfTheDayFragment : Fragment() {
 
 //Description
             data.pictureOfTheDayResponseData.explanation?.let {
-                includeBottomSheet.bottomSheetDescription.text = it
-                val spannableDescription = SpannableStringBuilder(it)
+
+                val spannableDescriptionStart = SpannableString(it)
+                includeBottomSheet.bottomSheetDescription.setText(
+                    spannableDescriptionStart,
+                    TextView.BufferType.SPANNABLE
+                )
+                val spannableDescription =
+                    includeBottomSheet.bottomSheetDescription.text as SpannableString
                 spannableDescription.setSpan(//делаем первую букву красной Как в книжке
                     ForegroundColorSpan(Color.RED),//цвет
                     0,
@@ -195,9 +206,10 @@ class PictureOfTheDayFragment : Fragment() {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
 
-
-
-                includeBottomSheet.bottomSheetDescription.text = spannableDescription
+                includeBottomSheet.bottomSheetDescription.setText(
+                    spannableDescription,
+                    TextView.BufferType.EDITABLE
+                )
             }
 
 
