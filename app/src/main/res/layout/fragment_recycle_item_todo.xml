@@ -13,9 +13,9 @@
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/todoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/todoImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/todoImageView"
-        app:layout_constraintEnd_toStartOf="@+id/todoImageView" />
+        app:layout_constraintTop_toTopOf="@+id/todoImageView" />
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -27,6 +27,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_todo" />
 
+    <CheckBox
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/todoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/descriptionTextView"
+        app:layout_constraintStart_toEndOf="@+id/todoImageView"
+        app:layout_constraintTop_toTopOf="@+id/todoImageView" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/descriptionTextView"
@@ -37,8 +46,8 @@
         android:textColor="#000"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/todoImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/todoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/addItemImageView"
+        app:layout_constraintStart_toEndOf="@+id/favorite"
         app:layout_constraintTop_toTopOf="@+id/todoImageView" />
 
     <androidx.appcompat.widget.AppCompatImageView

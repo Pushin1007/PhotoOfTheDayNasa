@@ -94,6 +94,12 @@ class RecyclerFragmentAdapter(
                     removeItem()
                 }
 
+                favorite.setOnClickListener {
+                    data.first.weight += 1000
+//                    data = data.sortedWith(compareBy { it.weight }).toMutableList() // djn nen ytgjyznyj
+                    notifyItemRemoved(layoutPosition)
+                }
+
             }
         }
 
@@ -154,7 +160,7 @@ class RecyclerFragmentAdapter(
 
         private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
             return Data(label = "Buy") to false
-            
+
         }
 
         private fun removeItem() { // удаление элемента Buy
