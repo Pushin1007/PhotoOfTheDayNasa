@@ -5,13 +5,17 @@ import android.graphics.BlurMaskFilter
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.*
 import android.transition.ChangeImageTransform
 import android.transition.TransitionManager
+import android.util.Log
 
 import android.view.*
 import android.widget.ImageView
@@ -20,6 +24,8 @@ import android.widget.Toast
 
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.provider.FontRequest
+import androidx.core.provider.FontsContractCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -185,31 +191,8 @@ class PictureOfTheDayFragment : Fragment() {
 
 //Description
             data.pictureOfTheDayResponseData.explanation?.let {
+                initSpans(it)
 
-                val spannableDescriptionStart = SpannableString(it)
-                includeBottomSheet.bottomSheetDescription.setText(
-                    spannableDescriptionStart,
-                    TextView.BufferType.SPANNABLE
-                )
-                val spannableDescription =
-                    includeBottomSheet.bottomSheetDescription.text as SpannableString
-                spannableDescription.setSpan(//делаем первую букву красной Как в книжке
-                    ForegroundColorSpan(Color.RED),//цвет
-                    0,
-                    1,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                spannableDescription.setSpan( //делаем первую букву большой
-                    RelativeSizeSpan(2f), // коэффициент умножения
-                    0,
-                    1,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-
-                includeBottomSheet.bottomSheetDescription.setText(
-                    spannableDescription,
-                    TextView.BufferType.EDITABLE
-                )
             }
 
 
@@ -234,6 +217,70 @@ class PictureOfTheDayFragment : Fragment() {
 
             }
         }
+
+    private fun initSpans(text: String) {
+        val requestCallback = FontRequest(
+            "com.google.android.gms.fonts", "com.google.android.gms",
+            "Tienne", R.array.com_google_android_gms_fonts_certs
+        )
+        val callback =
+            object : FontsContractCompat.FontRequestCallback() { //подгружаем шрифты через callback
+                override fun onTypefaceRetrieved(typeface: Typeface?) {
+                    typeface?.let {
+                        val spannableDescriptionStart = SpannableStringBuilder(text)
+                        binding.includeBottomSheet.bottomSheetDescription.setText(
+                            spannableDescriptionStart,
+                            TextView.BufferType.EDITABLE
+                        )
+                        val spannableDescription =
+                            binding.includeBottomSheet.bottomSheetDescription.text as SpannableStringBuilder
+                        spannableDescription.setSpan(//делаем первую букву красной Как в книжке
+                            ForegroundColorSpan(Color.RED),//цвет
+                            0,
+                            1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            spannableDescription.setSpan(
+                                TypefaceSpan(it),
+                                0, spannableDescription.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        spannableDescription.setSpan(
+                            AbsoluteSizeSpan(16, true),
+                            0,
+                            spannableDescription.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        spannableDescription.setSpan(
+                            StyleSpan(Typeface.ITALIC),
+                            0,
+                            spannableDescription.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+
+                        spannableDescription.setSpan( //делаем первую букву большой
+                            RelativeSizeSpan(3.0f), // коэффициент умножения
+                            0,
+                            1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+
+                        spannableDescription.insert(
+                            spannableDescription.length,
+                            " :)"
+                        ) //вставляем текст
+                    }
+
+                }
+
+            }
+        val handler = Handler(Looper.getMainLooper())
+        FontsContractCompat.requestFont(requireContext(), requestCallback, callback, handler)
+    }
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
