@@ -52,7 +52,7 @@ class RecycleFragment : Fragment() {
             Data("BUY", "", TYPE_BUY) to false
         )
 // добавляем заголовок
-        data.add(0, Data("Дела и покупки", type = TYPE_HEADER) to false)
+        data.add(0, Data("Дела и покупки", "", type = TYPE_HEADER, 20000000) to false)
 
         val adapter = RecyclerFragmentAdapter(data,
             object : MyCallback {
