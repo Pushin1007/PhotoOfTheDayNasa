@@ -169,7 +169,7 @@ class PictureOfTheDayFragment : Fragment() {
                     UnderlineSpan(),
                     0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
 
                 val blurMaskFilter = BlurMaskFilter(5f, BlurMaskFilter.Blur.SOLID) // размытие
@@ -177,14 +177,23 @@ class PictureOfTheDayFragment : Fragment() {
                     MaskFilterSpan(blurMaskFilter),
                     0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
                 spannableHeader.setSpan(// выделение абзаца. Выглядит так себе. Для тренировки
                     QuoteSpan(Color.RED), 0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
-
+                for (i in spannableHeader.indices) {
+                    if (spannableHeader[i] == 'o') {
+                        spannableHeader.setSpan(
+                            ImageSpan(
+                                requireContext(),
+                                R.drawable.ic_earth
+                            ), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                        )
+                    }
+                }
                 includeBottomSheet.bottomSheetDescriptionHeader.text = spannableHeader
             }
 
