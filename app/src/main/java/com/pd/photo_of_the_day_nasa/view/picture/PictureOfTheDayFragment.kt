@@ -1,20 +1,31 @@
 package com.pd.photo_of_the_day_nasa.view.picture
 
 import android.content.Intent
+import android.graphics.BlurMaskFilter
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.transition.ChangeBounds
+import android.os.Handler
+import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.*
 import android.transition.ChangeImageTransform
 import android.transition.TransitionManager
+import android.util.Log
 
 import android.view.*
-import android.webkit.CookieSyncManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.provider.FontRequest
+import androidx.core.provider.FontsContractCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -31,8 +42,6 @@ import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Matcher
@@ -145,11 +154,49 @@ class PictureOfTheDayFragment : Fragment() {
 
             val url = data.pictureOfTheDayResponseData.url // проверка по медиатайп
 //        val url = data.pictureOfTheDayResponseData.hdurl //  // если hdurl пустое то пришло видео
-            val header = data.pictureOfTheDayResponseData.title
-            val description = data.pictureOfTheDayResponseData.explanation
-//        if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
-            includeBottomSheet.bottomSheetDescriptionHeader.text = header
-            includeBottomSheet.bottomSheetDescription.text = description
+
+            //Header
+            includeBottomSheet.bottomSheetDescriptionHeader.typeface =
+                Typeface.createFromAsset(
+                    requireContext().assets,
+                    "script_regular.ttf"
+                )// применяем шрифт в коде
+
+            data.pictureOfTheDayResponseData.title?.let { //header
+
+                val spannableHeader = SpannableStringBuilder(it)
+                spannableHeader.setSpan(//подчеркивание
+                    UnderlineSpan(),
+                    0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                val blurMaskFilter = BlurMaskFilter(5f, BlurMaskFilter.Blur.SOLID) // размытие
+                spannableHeader.setSpan(
+                    MaskFilterSpan(blurMaskFilter),
+                    0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                spannableHeader.setSpan(// выделение абзаца. Выглядит так себе. Для тренировки
+                    QuoteSpan(Color.RED), 0,
+                    it.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                includeBottomSheet.bottomSheetDescriptionHeader.text = spannableHeader
+            }
+
+
+//Description
+            data.pictureOfTheDayResponseData.explanation?.let {
+                initSpans(it)
+
+            }
+
+
+            //if (url.isNullOrEmpty()) { // если hdurl пустое то пришло видео
             if (data.pictureOfTheDayResponseData.mediaType == "video") { // проверка по медиа тайп
                 val videoUrl = data.pictureOfTheDayResponseData.url
 //                youtubePlayerView.visibility = View.VISIBLE
@@ -170,6 +217,70 @@ class PictureOfTheDayFragment : Fragment() {
 
             }
         }
+
+    private fun initSpans(text: String) {
+        val requestCallback = FontRequest(
+            "com.google.android.gms.fonts", "com.google.android.gms",
+            "Tienne", R.array.com_google_android_gms_fonts_certs
+        )
+        val callback =
+            object : FontsContractCompat.FontRequestCallback() { //подгружаем шрифты через callback
+                override fun onTypefaceRetrieved(typeface: Typeface?) {
+                    typeface?.let {
+                        val spannableDescriptionStart = SpannableStringBuilder(text)
+                        binding.includeBottomSheet.bottomSheetDescription.setText(
+                            spannableDescriptionStart,
+                            TextView.BufferType.EDITABLE
+                        )
+                        val spannableDescription =
+                            binding.includeBottomSheet.bottomSheetDescription.text as SpannableStringBuilder
+                        spannableDescription.setSpan(//делаем первую букву красной Как в книжке
+                            ForegroundColorSpan(Color.RED),//цвет
+                            0,
+                            1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            spannableDescription.setSpan(
+                                TypefaceSpan(it),
+                                0, spannableDescription.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        spannableDescription.setSpan(
+                            AbsoluteSizeSpan(16, true),
+                            0,
+                            spannableDescription.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        spannableDescription.setSpan(
+                            StyleSpan(Typeface.ITALIC),
+                            0,
+                            spannableDescription.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+
+                        spannableDescription.setSpan( //делаем первую букву большой
+                            RelativeSizeSpan(3.0f), // коэффициент умножения
+                            0,
+                            1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+
+
+                        spannableDescription.insert(
+                            spannableDescription.length,
+                            " :)"
+                        ) //вставляем текст
+                    }
+
+                }
+
+            }
+        val handler = Handler(Looper.getMainLooper())
+        FontsContractCompat.requestFont(requireContext(), requestCallback, callback, handler)
+    }
 
     private fun showAVideoUrl(videoUrl: String) =
         with(binding) {//показываем видео, скрываем картинку
@@ -192,13 +303,13 @@ class PictureOfTheDayFragment : Fragment() {
             youtubePlayerView.addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-//                    extractId(videoUrl)?.let {
-//                        youTubePlayer.loadVideo(
-//                            it,
-//                            0f
-//                        )
-//                    } // проверка на ноль
-                                        youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
+                    extractId(videoUrl)?.let {
+                        youTubePlayer.loadVideo(
+                            it,
+                            0f
+                        )
+                    } // проверка на ноль
+     //                                   youTubePlayer.loadVideo("2SnbMTQwDKM", 0f)//для проверки id
                 }
             })
 
