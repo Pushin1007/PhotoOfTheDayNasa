@@ -91,9 +91,12 @@ class RecyclerFragmentAdapter(
                 }
 
                 favorite.setOnClickListener {
-                    data.first.weight += 1000
-                    dataList = dataList.sortedWith(compareBy { -it.first.weight }).toMutableList()
-                    notifyItemRemoved(layoutPosition)
+                    data.first.weight = if(favorite.isChecked) 1000 else 0
+                    var newPos = 0
+                    dataList.forEach{
+                        if(it.first.weight>data.first.weight) newPos++
+                    }
+                    notifyItemMoved(layoutPosition,newPos)
                 }
 
             }

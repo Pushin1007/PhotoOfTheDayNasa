@@ -15,26 +15,23 @@
         <activity
             android:name=".view.SplashActivity"
             android:exported="true"
-            android:noHistory="true"
->            <intent-filter>
+            android:noHistory="true">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!--        нужно без android:theme="@style/Green.Splash". Оставил для примера-->
         <activity
             android:name=".view.MainActivity"
             android:exported="true"
-            android:theme="@style/Green.Splash"
->
-
+            android:theme="@style/Green.Splash">
         </activity>
 
         <activity
             android:name=".view.api_nasa.ApiActivity"
             android:exported="true">
-
         </activity>
 
         <activity
