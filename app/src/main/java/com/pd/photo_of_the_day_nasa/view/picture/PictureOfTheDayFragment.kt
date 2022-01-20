@@ -42,6 +42,10 @@ import com.pd.photo_of_the_day_nasa.view.api_nasa.ApiBottomActivity
 import com.pd.photo_of_the_day_nasa.view.settings.SettingsFragment
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayState
 import com.pd.photo_of_the_day_nasa.viewmodel.PictureOfTheDayViewModel
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Matcher
@@ -90,6 +94,19 @@ class PictureOfTheDayFragment : Fragment() {
             }
 
         }
+        //гайд по чипам фоток
+        val builder = GuideView.Builder(requireContext())
+            .setTitle("Фото дней минувших")
+            .setContentText("Можно посмотреть фото текущего дня,  а также выбрать вчерашнее фото и фото двухдневной давности.")
+            .setGravity(Gravity.center)
+            .setTargetView(binding.chipsGroup)
+            .setDismissType(DismissType.anywhere)
+            .setGuideListener(object : GuideListener {
+                override fun onDismiss(view: View?) {
+
+                }
+            })
+        builder.build().show()
 
         binding.inputLayout.setEndIconOnClickListener { //при нажатии на кнопку wiki  ищем введенный текст
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -169,7 +186,7 @@ class PictureOfTheDayFragment : Fragment() {
                     UnderlineSpan(),
                     0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
 
                 val blurMaskFilter = BlurMaskFilter(5f, BlurMaskFilter.Blur.SOLID) // размытие
@@ -177,14 +194,23 @@ class PictureOfTheDayFragment : Fragment() {
                     MaskFilterSpan(blurMaskFilter),
                     0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
                 spannableHeader.setSpan(// выделение абзаца. Выглядит так себе. Для тренировки
                     QuoteSpan(Color.RED), 0,
                     it.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
                 )
-
+                for (i in spannableHeader.indices) {
+                    if (spannableHeader[i] == 'o') {
+                        spannableHeader.setSpan(
+                            ImageSpan(
+                                requireContext(),
+                                R.drawable.ic_earth
+                            ), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                        )
+                    }
+                }
                 includeBottomSheet.bottomSheetDescriptionHeader.text = spannableHeader
             }
 

@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnticipateOvershootInterpolator
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,9 @@ import com.pd.photo_of_the_day_nasa.*
 import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.databinding.FragmentSettingsBinding
 import com.pd.photo_of_the_day_nasa.view.MainActivity
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener
 
 
 class SettingsFragment : Fragment(), View.OnClickListener {
@@ -96,6 +100,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                 })
         }
 
+
         binding.buttonInfo.setOnClickListener { // изменение  Constraint в коде без применения MotionLayout и  двух активити
 
             val constraintSet = ConstraintSet()
@@ -116,6 +121,21 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             constraintSet.applyTo(binding.settings) //применяем наш сет
 
         }
+
+// подсказка (Гайд) на кнопке
+        val builder = GuideView.Builder(requireContext())
+            .setTitle(getString(R.string.fitch))
+            .setContentText(getString(R.string.fitch_description))
+            .setGravity(smartdevelop.ir.eram.showcaseviewlib.config.Gravity.center)
+            .setDismissType(DismissType.selfView) // закрытие подсказки только на вьюшку
+            .setTargetView(binding.changeThemeButton)
+            .setDismissType(DismissType.anywhere)// закрытие подсказки  при тапе в любом месте
+            .setGuideListener(object : GuideListener {
+                override fun onDismiss(view: View?) {
+
+                }
+            })
+        builder.build().show()
 
     }
 

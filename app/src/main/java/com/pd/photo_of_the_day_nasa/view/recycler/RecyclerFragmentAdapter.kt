@@ -1,25 +1,21 @@
 package com.pd.photo_of_the_day_nasa.view.recycler
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pd.photo_of_the_day_nasa.R
 import com.pd.photo_of_the_day_nasa.TYPE_HEADER
 import com.pd.photo_of_the_day_nasa.TYPE_TODO
-import com.pd.photo_of_the_day_nasa.databinding.FragmentAddBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemBuyBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemHeaderBinding
 import com.pd.photo_of_the_day_nasa.databinding.FragmentRecycleItemTodoBinding
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class RecyclerFragmentAdapter(
-    private val data: MutableList<Pair<Data, Boolean>>,
+    private var dataList: MutableList<Pair<Data, Boolean>>,
     private val callbackListener: MyCallback
 ) :
     RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
@@ -67,15 +63,15 @@ class RecyclerFragmentAdapter(
     }
 
     override fun getItemViewType(position: Int): Int { // определяем тип ячейки
-        return data[position].first.type
+        return dataList[position].first.type
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.bind(data[position])//вызывается абстрактный метод, и вызывается нужная реализация
+        holder.bind(dataList[position])//вызывается абстрактный метод, и вызывается нужная реализация
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return dataList.size
     }
 
 
@@ -94,16 +90,25 @@ class RecyclerFragmentAdapter(
                     removeItem()
                 }
 
+                favorite.setOnClickListener {
+                    data.first.weight = if(favorite.isChecked) 1000 else 0
+                    var newPos = 0
+                    dataList.forEach{
+                        if(it.first.weight>data.first.weight) newPos++
+                    }
+                    notifyItemMoved(layoutPosition,newPos)
+                }
+
             }
         }
 
         private fun addItemToPosition() { //добавление нового элемента Buy
-            data.add(layoutPosition, generateTodoItem())
+            dataList.add(layoutPosition, generateTodoItem())
             notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
         }
 
         private fun removeItem() { // удаление элемента Buy
-            data.removeAt(layoutPosition)
+            dataList.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
 
@@ -148,17 +153,17 @@ class RecyclerFragmentAdapter(
         }
 
         private fun addItemToPosition() { //добавление нового элемента Buy
-            data.add(layoutPosition, generateBuyItem())
+            dataList.add(layoutPosition, generateBuyItem())
             notifyItemInserted(layoutPosition) // обновление только вставленного элеманта
         }
 
         private fun generateBuyItem(): Pair<Data, Boolean> { // TODO написать добавление нового фрагмента
             return Data(label = "Buy") to false
-            
+
         }
 
         private fun removeItem() { // удаление элемента Buy
-            data.removeAt(layoutPosition)
+            dataList.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
 
@@ -174,8 +179,8 @@ class RecyclerFragmentAdapter(
             */
             // способ записи Преподавателя. Модный современный способ в Котлине
             layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
-                data.removeAt(currentPosition).apply {
-                    data.add(currentPosition - 1, this)
+                dataList.removeAt(currentPosition).apply {
+                    dataList.add(currentPosition - 1, this)
                 }
                 notifyItemMoved(currentPosition, currentPosition - 1)
             }
@@ -195,15 +200,15 @@ class RecyclerFragmentAdapter(
 */
             // способ записи Преподавателя. Модный современный способ в Котлине
             layoutPosition.takeIf { it < getItemCount() - 1 }?.also { currentPosition ->
-                data.removeAt(currentPosition).apply {
-                    data.add(currentPosition + 1, this)
+                dataList.removeAt(currentPosition).apply {
+                    dataList.add(currentPosition + 1, this)
                 }
                 notifyItemMoved(currentPosition, currentPosition + 1)
             }
         }
 
         private fun toggleDescription() { // показываем внутренности ячейки
-            data[layoutPosition] = data[layoutPosition].run {
+            dataList[layoutPosition] = dataList[layoutPosition].run {
                 first to !second
             }
             notifyItemChanged(layoutPosition) //обновляем точесно элемент
@@ -233,16 +238,16 @@ class RecyclerFragmentAdapter(
         if (toPosition == 0) { //Чтобы при перемещении не вылазить за  Header
             return Unit
         } else {
-            data.removeAt(fromPosition).apply {
+            dataList.removeAt(fromPosition).apply {
 
-                data.add(toPosition, this)
+                dataList.add(toPosition, this)
             }
             notifyItemMoved(fromPosition, toPosition)
         }
     }
 
     override fun onItemDismiss(position: Int) { // реализуем метод  удаления элементы
-        data.removeAt(position)
+        dataList.removeAt(position)
         notifyItemRemoved(position)
     }
 

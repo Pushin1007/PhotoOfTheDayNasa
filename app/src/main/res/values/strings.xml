@@ -59,6 +59,8 @@
     <string name="typeItem">Тип заметки</string>
     <string name="value">Текст заметки</string>
     <string name="description_buy">здесь описание списка покупок и всего другого</string>
+    <string name="fitch">Новый функционал</string>
+    <string name="fitch_description">Теперь доступна новая тема с более веселыми тонами. Раскрасим мир вместе :)</string>
 
 
 </resources>
